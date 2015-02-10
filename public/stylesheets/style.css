@@ -1,8 +1,189 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#settings, #search, #home {
+	cursor: pointer;
+	cursor: hand;
+}
+
+#home {
+	position: absolute;
+	top: -1px;
+	left: 0px;
+}
+
+#home > a {
+	position: absolute;
+	top: 6px;
+	left: 16px;
+}
+
+#settings {
+	position: absolute;
+	top: -1px;
+	right: 0px;
+}
+
+#settings > div {
+	position: absolute;
+	top: 6px;
+	left: 5px;
+}
+
+#search {
+	position: absolute;
+	top: -1px;
+	right: 60px;
+}
+
+#search > div {
+	position: absolute;
+	top: 6px;
+	left: 9px;
+}
+
+#nav-bar > div.title {
+	height: 60px;
+	padding-left: 60px;
+	padding-right: 120px;
+	width: auto;
+}
+
+#nav-bar {
+	width: 100%;
+}
+
+#settings-panel {
+	top: 64px;
+	left: 132px;
+	position: absolute;
+	float: right;
+	background-color: #91d9ff;
+	height: 420px;
+	display: none;
+}
+
+#search-panel {
+	top: 64px;
+	left: 0px;
+	position: absolute;
+	height: 54px;
+	background-color: gray;
+	display: none;
+}
+
+#search-panel > input {
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 270px;
+	height: 25px;
+	display: inline-block;
+}
+
+#search-panel > i {
+	font-size: 25px;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+#settings-panel > div {
+	margin: 15px;
+}
+
+.invert {
+	filter: invert(100%);
+	-webkit-filter: invert(100%);
 }
 
 a {
-  color: #00B7FF;
+	text-decoration: none;
+	color: inherit;
+}
+
+#placeholder {
+	margin-left: 10px;
+	margin-top: 200px;
+}
+
+html,body {
+	margin:0;
+}
+
+body {
+	font-family:'Source Sans Pro',sans-serif;
+	overflow:scroll;
+}
+
+ul {
+	list-style:none;
+	margin:64px 0 0;
+	padding:0;
+	height:420px;
+	overflow:scroll;
+}
+
+li {
+	display:table;
+	padding:10px;
+	background:#f0f0f0;
+	width: 100%;
+}
+
+li:nth-child(odd) {
+	background:#dcdcdc;
+}
+
+.classtag {
+	display:table-cell;
+/*border: 2px solid black;*/
+	height:40px;
+	width:40px;
+	text-align:center;
+	vertical-align:middle;
+	font-size:20px;
+	font-weight:300;
+	background:#323232;
+	color:#fff;
+}
+
+.classname {
+	display:table-cell;
+	height:40px;
+	width:260px;
+	vertical-align:middle;
+	padding:0 10px;
+	font-weight:600;
+}
+
+.nav {
+	display:table;
+	border-collapse:collapse;
+	position:fixed;
+	background:#fff;
+	top:0;
+}
+
+.block {
+	display:table-cell;
+	width:60px;
+	height:60px;
+	vertical-align:middle;
+	text-align:center;
+	border:2px solid #000;
+	background-color: white;
+}
+
+.title {
+	display:table-cell;
+	vertical-align:middle;
+	width:150px;
+	text-align:center;
+	border:2px solid #000;
+	font-size:20px;
+}
+
+.nav-title {
+	font-size:10px;
+	letter-spacing:1px;
+}
+
+.nav i {
+	font-size:30px;
 }

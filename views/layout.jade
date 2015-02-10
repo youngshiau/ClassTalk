@@ -1,7 +1,23 @@
 doctype html
-html
+html(lang="en-US")
   head
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600', type='text/css')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
+    script(src='/javascripts/jquery-1.11.2.min.js')
+    script(src='/javascripts/jquery-ui.min.js')
+    script(src='/javascripts/index.js') 
+
   body
+    include nav-bar
     block content
+  div#settings-panel
+    div {{user-name}}
+    div Notifications
+    div Preferences
+    div Logout
+  div#search-panel
+    input(type="text")
+    i.fa.fa-search
