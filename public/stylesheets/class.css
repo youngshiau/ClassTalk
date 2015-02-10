@@ -1,0 +1,55 @@
+.classtag {
+	display: table-cell;
+	border: 2px solid rgb(50,50,50);
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 20px;
+	font-weight: 600;
+	color: rgb(50,50,50);
+	background: white;
+}
+.classname {
+	display: table-cell;
+	height: 40px;
+	width: 260px;
+	vertical-align: middle;
+	padding: 0 10px;
+	font-weight: 600;
+	position: relative;
+}
+.postpreview {
+	font-weight: 300;
+	font-size: 12px;
+}
+.posttime {
+	position: absolute;
+	font-weight: 200;
+	font-size: 14px;
+	right: -4px;
+	top: -8px;
+	color: rgb(150,150,150);
+}
+.google {
+	background: #5a98f4;
+}
+.google .posttime {
+	color: white;
+}
+a:nth-child(odd) .google{
+	background: #4285f4;
+}
+.link {
+	background: rgb(131, 231, 5);
+}
+a:nth-child(odd) .link {
+	background: rgb(120, 208, 8);
+}
+a {
+	color: inherit;
+	text-decoration: none;
+}

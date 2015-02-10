@@ -1,6 +1,10 @@
 extends layout
 
 block content
-  //user's classes
-  include classes
+  if view == 'home'
+    //home from index.jade
+    include classes
+  else if view == 'class'
+    //class from index.jade
+    include classes
 
