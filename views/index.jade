@@ -2,9 +2,12 @@ extends layout
 
 block content
   if view == 'home'
-    //home from index.jade
+    // home from index.jade
     include classes
   else if view == 'class'
-    //class from index.jade
+    // class from index.jade
     include class-threads-all
+  else if view == 'class-thread'
+    // class-thread from index.jade
+    include class-threads-single
 

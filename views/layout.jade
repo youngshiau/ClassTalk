@@ -9,6 +9,8 @@ html(lang="en-US")
     link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
     if view == 'class'
       link(rel='stylesheet', href='/stylesheets/class.css', type='text/css')
+    if view == 'class-thread'
+      link(rel='stylesheet', href='/stylesheets/class-thread.css', type='text/css')
     script(src='/javascripts/jquery-1.11.2.min.js')
     script(src='/javascripts/jquery-ui.min.js')
     script(src='/javascripts/index.js') 
@@ -18,7 +20,7 @@ html(lang="en-US")
     include nav-bar
     block content
   div#settings-panel
-    div {{user-name}}
+    div Hello, #{fullname}
     div Notifications
     div Preferences
     div Logout
