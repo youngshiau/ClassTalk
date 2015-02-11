@@ -135,9 +135,12 @@ ul {
 
 li {
 	display:table;
-	padding:10px;
 	background:#f0f0f0;
 	width: 100%;
+}
+
+li > div {
+	padding: 10px;
 }
 
 li:nth-child(odd) {
@@ -146,7 +149,6 @@ li:nth-child(odd) {
 
 .classtag {
 	display:table-cell;
-/*border: 2px solid black;*/
 	height:40px;
 	width:40px;
 	text-align:center;

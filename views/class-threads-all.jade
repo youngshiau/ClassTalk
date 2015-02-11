@@ -1,12 +1,9 @@
 ul
   li
-  	a(href='')
-  	  div.classtag
-  	  	i.fa.fa-chevron-left
-  	div.classname
-  	  div.posttime {{post-time}}
-  	  div.posttitle {{post-title}}
-  	  div.postpreview {{post-content}}
-  li.comment.answer
-  	div.picture
-  	div.content {{post-content}}
+    div
+      a(href='/class-thread')
+        div.classtag ?
+        div.classname
+          div.posttitle {{post-title}}
+          div.postpreview {{post-preview}}
+          div.posttime {{post-time}}
