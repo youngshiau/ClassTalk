@@ -1,14 +1,12 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var uriUtil = require('mongodb-uri');
 var router = express.Router();
 
 
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
                 replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } }; 
 
-var mongodbUri = 'mongodb://master:Super7K@ds041821.mongolab.com:41821/db';
-var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+var mongooseUri = 'mongodb://master:Super7K@ds041821.mongolab.com:41821/db';
 
 mongoose.connect(mongooseUri, options);
 
