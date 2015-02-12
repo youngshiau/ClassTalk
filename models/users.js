@@ -5,9 +5,8 @@ var ObjectId = Schema.ObjectId;
 var UserSchema = Schema({
 	firstname: 	{type: String},
 	lastname: 	{type: String},
-	username: 	{type: String},
 	password: 	{type: String},
-	email: 		{type: String},
+	email: 		{type: String, unique: true},
 	code: 		{type: String},
 	confirmed: 	{type: Boolean},
 	salt: 		{type: String},

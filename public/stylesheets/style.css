@@ -203,3 +203,15 @@ li:nth-child(odd) {
 .nav i {
 	font-size:30px;
 }
+
+div.new-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #354458;
+    color: white;
+}

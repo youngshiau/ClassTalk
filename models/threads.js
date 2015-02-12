@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var ThreadSchema = Schema({
-	classId: 	{type: ObjectId},
-    userId: 	{type: ObjectId},
+	classId: 	{type: String},
+    userId: 	{type: String},
 	time: 		{type: Date, default: Date.now},
 	content: 	{type: String},
 	title: 		{type: String}, 
@@ -14,7 +14,5 @@ var ThreadSchema = Schema({
 
 var Thread = mongoose.model('Thread', ThreadSchema);
 
-
-mongoose.connect('mongodb://localhost/db');
 module.exports = Thread;
-console.log('mongoose connected');
+console.log('mongoose connected1');

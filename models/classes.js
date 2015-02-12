@@ -3,12 +3,10 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var ClassSchema = Schema({
-	className: {type: String}
+	className: {type: String, unique: true}
 });
 
 var Class = mongoose.model('Class', ClassSchema);
 
-
-mongoose.connect('mongodb://localhost/db');
 module.exports = Class;
 console.log('mongoose connected');

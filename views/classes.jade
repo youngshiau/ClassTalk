@@ -1,8 +1,8 @@
 ul
-  li
-    div
-      // replace href with {{class-url}}
-      a(href="/class")
-        // replace 3 with course number {{class-number}}
-        div.classtag 3
-        div.classname {{class-name}}
+  each val in classes
+    li
+      div
+        a(href="/class/#{fullname}/#{val.className}")
+          div.classtag #{val.className}
+          div.classname CSE #{val.className}
+div.new-button  + New Class

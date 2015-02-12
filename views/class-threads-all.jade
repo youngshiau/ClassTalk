@@ -1,9 +1,11 @@
 ul
-  li
-    div
-      a(href='/class-thread')
-        div.classtag ?
-        div.classname
-          div.posttitle {{post-title}}
-          div.postpreview {{post-preview}}
-          div.posttime {{post-time}}
+  each val in threads
+    li
+      div
+        a(href='/class/#{fullname}/#{className}/#{val.id}')
+          div.classtag ?
+          div.classname
+            div.posttitle #{val.title}
+            div.postpreview #{val.content}
+            div.posttime #{val.time}
+div.new-button  + New Thread

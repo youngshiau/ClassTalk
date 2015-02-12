@@ -3,9 +3,9 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var PostSchema = Schema({
-	classId: 	{type: ObjectId},
-	threadId: 	{type: ObjectId},
-    userId: 	{type: ObjectId},
+	classId: 	{type: String},
+	threadId: 	{type: String},
+    userId: 	{type: String},
 	time: 		{type: Date, default: Date.now},
 	content: 	{type: String}
 });
@@ -13,6 +13,5 @@ var PostSchema = Schema({
 var Post = mongoose.model('Post', PostSchema);
 
 
-mongoose.connect('mongodb://localhost/db');
 module.exports = Post;
 console.log('mongoose connected');
