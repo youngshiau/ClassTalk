@@ -1,17 +1,27 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var uriUtil = require('mongodb-ure');
 var router = express.Router();
+
+
+var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
+                replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } }; 
+
+var mongodbUri = 'mongodb://master:Super7K@ds041821.mongolab.com:41821/db';
+var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+
+mongoose.connect(mongooseUri, options);
+
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+
 
 var users = require('../models/users');
 var classes = require('../models/classes');
 var threads = require('../models/threads');
 var posts = require('../models/posts')
 
-/*
-var users = require('../users.jason');
-var threads = require('../threads.json');
-var comments = require('../comments.json');
-*/
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
