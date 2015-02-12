@@ -120,10 +120,25 @@ router.get('/class/:fullname/:className/:id', function(req, res, next) {
 									fullname: fullname,
 									className: className,
 									thread: thread,
-									posts: allPosts });
+									posts: allPosts
+								});
 
 		});
 	});
+});
+
+router.get('/newpost/:fullname/:time/:content', function(req, res, next) {
+	var fullname = req.params['fullname'];
+	var time = req.params['time'];
+	var content = req.params['content'];
+	// should actually receive IDs and do query.
+	var jsonText = '{' + 
+					'"fullname" : "' + fullname + '", ' +
+					'"time" : "' + time + '", ' +
+					'"content" : "' + content + '"' + 
+	           '}';
+
+	res.json(jsonText);
 });
 
 /* GET class thread */
