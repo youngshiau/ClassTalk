@@ -1,6 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var uriUtil = require('mongodb-ure');
+var uriUtil = require('mongodb-uri');
 var router = express.Router();
 
 
