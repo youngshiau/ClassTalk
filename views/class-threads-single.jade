@@ -1,11 +1,17 @@
 ul
-  li
+  li.comment
     div.classname
       div.posttime #{thread.time}
-      div.posttitle #{thread.title}
-      div.postpreview #{thread.content}
-  li.comment
-    div
-      div.pic.young
-      div.content {{post-content}}
+      div.posttitle 
+        h3 #{thread.title}
+      div.postcontent 
+        p #{thread.content}
+  for post in posts
+    li.comment
+      div.classname
+        div.pic.young
+        div #{fullname}
+        div.posttime #{post.time}
+        div.postcontent 
+          p #{post.content}
 div.new-button  + New Post

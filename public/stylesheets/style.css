@@ -48,6 +48,7 @@
 
 #nav-bar {
 	width: 100%;
+	z-index: 100;
 }
 
 #settings-panel {
@@ -210,8 +211,8 @@ div.new-button {
     text-align: center;
     position: fixed;
     bottom: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background-color: #354458;
     color: white;
 }
