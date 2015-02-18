@@ -103,6 +103,34 @@ router.post('/login', function(req, res) {
 	});
 });
 
+router.get('/register', function(req, res) {
+	res.render('index', { title: 'Register',
+						  view: 'register' });
+});
+
+router.post('/register', function(req, res) {
+	var firstname = req.body.user.firstname;
+	var lastname = req.body.user.lastname;
+	var password = req.body.user.password;
+	var email = req.body.user.email;
+
+	var newUser = new users({
+		firstname: firstname,
+		lastname: lastname,
+		password: password,
+		email: email
+	});
+
+	newUser.save(function(err) {
+		if(err) {
+			// email already exists;
+			console.log('email already exists: ' + err);
+		}
+
+		res.redirect('/login');
+	});
+});
+
 router.get('/logout', function(req, res) {
 	delete req.session.email;
 	res.redirect('/login');
