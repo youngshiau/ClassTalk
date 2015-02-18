@@ -1,7 +1,16 @@
 extends layout
 
 block content
-  if view == 'home'
+  if view == 'loading'
+    // loading from index.jade
+    include login
+  else if view == 'login'
+    // login from index.jade
+    include login
+  else if view == 'registration'
+    // registration from index.jade
+    include login
+  else if view == 'home'
     // home from index.jade
     include classes
   else if view == 'class'

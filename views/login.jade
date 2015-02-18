@@ -1,0 +1,8 @@
+form(action='/login', method='post')
+  label(for='email') Email 
+  input(type='text', name='user[email]', id='email')
+  br
+  label(for='pw') Password
+  input(type='password', name='user[password]', id='pw')
+  br
+  input(type='submit', value='Log in')

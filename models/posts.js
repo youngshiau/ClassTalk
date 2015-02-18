@@ -14,4 +14,3 @@ var Post = mongoose.model('Post', PostSchema);
 
 
 module.exports = Post;
-console.log('mongoose connected');

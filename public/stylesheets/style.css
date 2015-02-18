@@ -216,3 +216,7 @@ div.new-button {
     background-color: #354458;
     color: white;
 }
+
+form {
+	margin-top: 150px;
+}

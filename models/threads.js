@@ -15,4 +15,3 @@ var ThreadSchema = Schema({
 var Thread = mongoose.model('Thread', ThreadSchema);
 
 module.exports = Thread;
-console.log('mongoose connected1');

@@ -8,7 +8,12 @@ var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000
 
 var mongooseUri = 'mongodb://master:Super7K@ds041821.mongolab.com:41821/db';
 
-mongoose.connect(mongooseUri, options);
+mongoose.connect(mongooseUri, options, function(err) {
+	if(err) {
+		throw err;
+	}
+	console.log('Successfully connected to remote MongoDB server.');
+});
 
 var db = mongoose.connection;
 
@@ -18,12 +23,93 @@ db.on('error', console.error.bind(console, 'connection error:'));
 var users = require('../models/users');
 var classes = require('../models/classes');
 var threads = require('../models/threads');
-var posts = require('../models/posts')
+var posts = require('../models/posts');
 
+/*
+ *----------------------------------------------------------------------------
+ * BEGIN USER AUTH TESTING
+ *----------------------------------------------------------------------------
+ */
+
+// issue: asynchronous, so testUser doesnt exist when we try to check later. should be fine
+//		  because user registration will be separate from user login
+// create the test user
+/*
+var testUser = new users({
+	firstname: 'Young',
+	lastname: 'Shiau',
+	password: 'pw',
+	email: 'yshiau@ucsd.edu'
+});
+
+// save test user to db
+testUser.save(function(err) {
+	if(err) {
+		throw err;
+	}
+});
+*/
+
+
+function checkAuth(req, res, next) {
+	if(!req.session.email) {
+		res.send('You are not authorized to view this page.');
+	} else {
+		next();
+	}
+}
+
+/*
+ *----------------------------------------------------------------------------
+ * END USER AUTH TESTING
+ *----------------------------------------------------------------------------
+ */
+
+
+/* GET login page. */
+router.get('/login', checkAuth, function(req, res, next) {
+	res.render('index', { title: 'Login',
+				  view: 'login',
+				  success: true });
+});
+
+router.post('/login', function(req, res) {
+	var email = req.body.user.email;
+	var password = req.body.user.password;
+
+	users.findOne({ email: email }, function(err, user) {
+		if(err) {
+			throw err;
+		}
+
+		// check passwords
+		user.comparePassword(password, function(err, isMatch) {
+			if(err) {
+				throw err;
+			}
+
+			console.log('correct password: ', isMatch);
+
+			// authenticated; login
+			if(isMatch) {
+				req.session.email = email;
+				res.redirect('/');
+			} 
+			// failed; reject
+			else {
+				res.send('login failed');
+			}
+		});
+	});
+});
+
+router.get('/logout', function(req, res) {
+	delete req.session.email;
+	res.redirect('/login');
+});
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-
+router.get('/', checkAuth, function(req, res, next) {
 	var allClasses;
 	var fullname;
 
@@ -70,7 +156,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET class threads (all). */
-router.get('/class/:fullname/:className', function(req, res, next) {
+router.get('/class/:fullname/:className', checkAuth, function(req, res, next) {
 
 	var className = req.params['className'];
 	var title = "CSE " + className;
@@ -96,7 +182,7 @@ router.get('/class/:fullname/:className', function(req, res, next) {
 });
 
 /* GET class thread (single) */
-router.get('/class/:fullname/:className/:id', function(req, res, next) {
+router.get('/class/:fullname/:className/:id', checkAuth, function(req, res, next) {
 
 	var className = req.params['className'];
 	var title = "CSE " + className;
@@ -127,7 +213,7 @@ router.get('/class/:fullname/:className/:id', function(req, res, next) {
 	});
 });
 
-router.get('/newpost/:fullname/:time/:content', function(req, res, next) {
+router.get('/newpost/:fullname/:time/:content', checkAuth, function(req, res, next) {
 	var fullname = req.params['fullname'];
 	var time = req.params['time'];
 	var content = req.params['content'];

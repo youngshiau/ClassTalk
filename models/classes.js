@@ -9,4 +9,3 @@ var ClassSchema = Schema({
 var Class = mongoose.model('Class', ClassSchema);
 
 module.exports = Class;
-console.log('mongoose connected');
