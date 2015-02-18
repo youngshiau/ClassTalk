@@ -15,6 +15,18 @@
 	left: 16px;
 }
 
+#back {
+	position: absolute;
+	top: -1px;
+	left: 60px;
+}
+
+#back > a {
+	position: absolute;
+	top: 6px;
+	left: 16px;
+}
+
 #settings {
 	position: absolute;
 	top: -1px;
@@ -41,7 +53,7 @@
 
 #nav-bar > div.title {
 	height: 60px;
-	padding-left: 60px;
+	padding-left: 120px;
 	padding-right: 120px;
 	width: auto;
 }

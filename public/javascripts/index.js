@@ -14,8 +14,18 @@ $(document).ready(function() {
 		$('#search-panel').toggle("slide", {"direction": "up"});
 	});
 
+	$('#new-class').click(addClass);
+	$('#new-thread').click(addThread);
 	$('#new-post').click(addPost);
 });
+
+function addClass(e) {
+
+}
+
+function addThread(e) {
+
+}
 
 function addPost(e) {
 	console.log('adding post');

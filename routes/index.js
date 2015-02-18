@@ -1,6 +1,12 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var checkAuth = require('../middleware/checkAuth');
+
 var router = express.Router();
+
+router.use(checkAuth());
+
+console.log('middleware used.');
 
 
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
@@ -24,6 +30,9 @@ var users = require('../models/users');
 var classes = require('../models/classes');
 var threads = require('../models/threads');
 var posts = require('../models/posts');
+
+
+var location = [];
 
 /*
  *----------------------------------------------------------------------------
@@ -50,15 +59,6 @@ testUser.save(function(err) {
 });
 */
 
-
-function checkAuth(req, res, next) {
-	if(!req.session.email) {
-		res.send('You are not authorized to view this page.');
-	} else {
-		next();
-	}
-}
-
 /*
  *----------------------------------------------------------------------------
  * END USER AUTH TESTING
@@ -67,7 +67,7 @@ function checkAuth(req, res, next) {
 
 
 /* GET login page. */
-router.get('/login', checkAuth, function(req, res, next) {
+router.get('/login', function(req, res, next) {
 	res.render('index', { title: 'Login',
 				  view: 'login',
 				  success: true });
@@ -93,6 +93,8 @@ router.post('/login', function(req, res) {
 			// authenticated; login
 			if(isMatch) {
 				req.session.email = email;
+				req.session.fullname = user.firstname + ' ' + user.lastname;
+				req.session.location = [];
 				res.redirect('/');
 			} 
 			// failed; reject
@@ -125,6 +127,7 @@ router.post('/register', function(req, res) {
 		if(err) {
 			// email already exists;
 			console.log('email already exists: ' + err);
+			res.send('Error: email already exists in system.');
 		}
 
 		res.redirect('/login');
@@ -138,8 +141,11 @@ router.get('/logout', function(req, res) {
 
 /* GET home page. */
 router.get('/', checkAuth, function(req, res, next) {
+
 	var allClasses;
 	var fullname;
+
+	req.session.location = ['Home'];
 
 	// query the db for someone whose username is youngshiau
 	var query = classes.find().sort({className: 1});
@@ -159,7 +165,7 @@ router.get('/', checkAuth, function(req, res, next) {
 		// user logins
 
 		// query the db for someone whose username is youngshiau
-		query = users.findOne({username: 'youngshiau'});
+		query = users.findOne({email: req.session.email});
 
 		// select the following fields from that user
 		query.select('firstname lastname _id');
@@ -184,11 +190,11 @@ router.get('/', checkAuth, function(req, res, next) {
 });
 
 /* GET class threads (all). */
-router.get('/class/:fullname/:className', checkAuth, function(req, res, next) {
+router.get('/class/:className', checkAuth, function(req, res, next) {
 
 	var className = req.params['className'];
 	var title = "CSE " + className;
-	var fullname = req.params['fullname'];
+	var fullname = req.session.fullname;
 	var allThreads;
 
 
@@ -210,11 +216,11 @@ router.get('/class/:fullname/:className', checkAuth, function(req, res, next) {
 });
 
 /* GET class thread (single) */
-router.get('/class/:fullname/:className/:id', checkAuth, function(req, res, next) {
+router.get('/class/:className/:id', checkAuth, function(req, res, next) {
 
 	var className = req.params['className'];
 	var title = "CSE " + className;
-	var fullname = req.params['fullname'];
+	var fullname = req.session.fullname;
 	var threadId = req.params['id'];
 
 	var query = threads.find({ _id: threadId });

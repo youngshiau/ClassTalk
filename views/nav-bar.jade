@@ -3,6 +3,10 @@ div#nav-bar.nav
     a(href='/')
       i.fa.fa-home
       div.nav-title HOME
+  div#back.block
+    a(href='#{location}')
+      i.fa.fa-arrow-left
+      div.nav-title BACK
   div.title #{title}
   div#search.block
     div
@@ -10,5 +14,5 @@ div#nav-bar.nav
       div.nav-title SEARCH
   div#settings.block
     div
-      i.fa.fa-cogs
-      div.nav-title SETTINGS
+      i.fa.fa-bars
+      div.nav-title MENU
