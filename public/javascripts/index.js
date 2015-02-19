@@ -20,45 +20,13 @@ $(document).ready(function() {
 });
 
 function addClass(e) {
-
+	console.log('adding a new class: ');
 }
 
 function addThread(e) {
-
+	console.log('adding a new thread: ');
 }
 
 function addPost(e) {
-	console.log('adding post');
-	var fullName = 'Young Shiau';
-	var time = new Date();
-	var content = 'New post at time: ' + time;
-	var url = '/newpost/' + fullName + '/' + time + '/' + content;
-
-	// should actually populate urls with IDs to do a query in index.js
-	$.get(url, function(result) {
-		//append li
-		console.log(result);
-		result = $.parseJSON(result);
-
-		/*
-    li.comment
-      div.classname
-        div.pic.young
-        div #{fullname}
-        div.posttime #{post.time}
-        div.postcontent 
-          p #{post.content}
-		*/
-		var html = 	'<li class="comment">' + 
-						'<div class="classname">' + 
-							'<div class="pic young"></div>' +
-							'<div>' + result.fullname + '</div>' + 
-							'<div class="posttime">' + result.time + '</div>' +
-							'<div class="postcontent">' +
-								'<p>' + result.content + '</p>' + 
-							'</div>'
-						'</div>' + 
-					'</li>';
-		$('ul').append(html);
-	});
+	console.log('adding a new post: ');
 }

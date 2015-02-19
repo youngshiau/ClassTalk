@@ -1,6 +1,7 @@
 //require('./db');
 
 var express = require('express');
+var session = require('express-session');
 var http = require('http');
 var path = require('path');
 var path = require('path');
@@ -17,6 +18,7 @@ var app = express();
 
 //app.use(checkAuth());
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -28,6 +30,7 @@ app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: 'whatdoiputhere'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);

@@ -45,14 +45,17 @@ router.get('/', function(req, res) {
 /* GET login page. */
 router.get('/login', function(req, res, next) {
 	location.push('/login');
-	res.render('index', { title: 'Login',
-				  view: 'login',
-				  success: true });
+	res.render('main', { title: 'Login',
+				  		  view: 'login',
+				  		  back: '/login',
+				  		  success: true });
 });
 
 router.post('/login', function(req, res) {
 	var email = req.body.user.email;
 	var password = req.body.user.password;
+	console.log(email);
+	console.log(password);
 
 	users.findOne({ email: email }, function(err, user) {
 		if(err) {
@@ -60,15 +63,19 @@ router.post('/login', function(req, res) {
 		}
 
 		// check passwords
+		console.log('input pw: ' + password);
+		console.log('db pw: ' + user.password);
 		user.comparePassword(password, function(err, isMatch) {
 			if(err) {
 				throw err;
 			}
 
-			console.log('correct password: ', isMatch);
+			console.log('correct password? ', isMatch);
 
 			// authenticated; login
 			if(isMatch) {
+				req.session.uid = user._id;
+				console.log(req.session.uid);
 				req.session.email = email;
 				req.session.fullname = user.firstname + ' ' + user.lastname;
 				req.session.location = [];
@@ -84,8 +91,10 @@ router.post('/login', function(req, res) {
 
 router.get('/register', function(req, res) {
 	location.push('/register');
-	res.render('index', { title: 'Register',
-						  view: 'register' });
+	console.log('register');
+	res.render('main', { title: 'Register',
+						  view: 'register',
+						  back: '/login' });
 });
 
 router.post('/register', function(req, res) {
@@ -113,7 +122,7 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-	delete req.session.email;
+	delete req.session;
 	res.redirect('/login');
 });
 
@@ -127,7 +136,7 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 	req.session.location = ['Home'];
 
 	// query the db for someone whose username is youngshiau
-	var query = users.find( {email: req.session.email} );
+	var query = users.find( {_id: req.session.uid} );
 
 	// select the following fields from that user
 	query.select('classes');
@@ -136,10 +145,25 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 		if(err) {
 			return handleError(err);
 		}
-		res.render('index', { 	title: 'Home', 
+
+		console.log('classes: ' + classes);
+		classes = classes.classes;
+
+		if(classes != 'undefined') {
+			hasClasses = false;
+		}
+		else {
+			hasClasses = true;
+		}
+
+		console.log('hasClasses: ' + hasClasses);
+
+		res.render('main', { 	title: 'Home', 
 								view: 'home',
 								classes: classes,
-								fullname: req.session.fullname });
+								hasClasses: hasClasses,
+								fullname: req.session.fullname,
+								back: '/main' });
 
 	});
 
@@ -167,11 +191,12 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 		}
 		allThreads = threads;	
 
-		res.render('index', { 	title: title, 
+		res.render('main', { 	title: title, 
 						view: 'class', 
 						fullname: fullname,
 						className: className,
-						threads: allThreads });
+						threads: allThreads,
+						back: '/main' });
 	});
 
 });
@@ -198,28 +223,22 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 			if(err) {
 				return handleError(err);
 			}
-			res.render('index', { 	title: title, 
+			res.render('main', { 	title: title, 
 									view: 'class-thread', 
 									fullname: fullname,
 									className: className,
 									thread: thread,
-									posts: allPosts
+									posts: allPosts,
+									back: '/class/' + className
 								});
 
 		});
 	});
 });
 
-router.get('/back', function(req, res) {
-	var newLocation = location.pop();
-	if(newLocation) {
-		res.redirect(newLocation);
-	}
-	else {
-		res.redirect('/');
-	}
-});
+/* add a class */
+router.post('/addClass', function(req, res, next) {
 
-/* GET class thread */
+});
 
 module.exports = router;

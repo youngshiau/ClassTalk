@@ -1,18 +1,19 @@
 div#nav-bar.nav
   div#home.block
-    a(href='/main')
+    a(href='/')
       i.fa.fa-home
       div.nav-title HOME
   div#back.block
-    a(href='#{location}')
+    a(href='#{back}')
       i.fa.fa-arrow-left
       div.nav-title BACK
   div.title #{title}
-  div#search.block
-    div
-      i.fa.fa-search
-      div.nav-title SEARCH
-  div#settings.block
-    div
-      i.fa.fa-bars
-      div.nav-title MENU
+  if(fullname)
+    div#search.block
+      div
+        i.fa.fa-search
+        div.nav-title SEARCH
+    div#settings.block
+      div
+        i.fa.fa-bars
+        div.nav-title MENU
