@@ -1,12 +1,12 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var checkAuth = require('../middleware/checkAuth');
+//var checkAuth = require('../middleware/checkAuth');
 
 var router = express.Router();
 
-router.use(checkAuth());
+//router.use(checkAuth());
 
-console.log('middleware used.');
+//console.log('middleware used.');
 
 
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
@@ -31,43 +31,20 @@ var classes = require('../models/classes');
 var threads = require('../models/threads');
 var posts = require('../models/posts');
 
-
 var location = [];
 
-/*
- *----------------------------------------------------------------------------
- * BEGIN USER AUTH TESTING
- *----------------------------------------------------------------------------
- */
-
-// issue: asynchronous, so testUser doesnt exist when we try to check later. should be fine
-//		  because user registration will be separate from user login
-// create the test user
-/*
-var testUser = new users({
-	firstname: 'Young',
-	lastname: 'Shiau',
-	password: 'pw',
-	email: 'yshiau@ucsd.edu'
-});
-
-// save test user to db
-testUser.save(function(err) {
-	if(err) {
-		throw err;
+router.get('/', function(req, res) {
+	if(req.session) {
+		res.redirect('/main');
+	}
+	else {
+		res.redirect('/login');
 	}
 });
-*/
-
-/*
- *----------------------------------------------------------------------------
- * END USER AUTH TESTING
- *----------------------------------------------------------------------------
- */
-
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
+	location.push('/login');
 	res.render('index', { title: 'Login',
 				  view: 'login',
 				  success: true });
@@ -95,7 +72,7 @@ router.post('/login', function(req, res) {
 				req.session.email = email;
 				req.session.fullname = user.firstname + ' ' + user.lastname;
 				req.session.location = [];
-				res.redirect('/');
+				res.redirect('/main');
 			} 
 			// failed; reject
 			else {
@@ -106,6 +83,7 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/register', function(req, res) {
+	location.push('/register');
 	res.render('index', { title: 'Register',
 						  view: 'register' });
 });
@@ -140,7 +118,8 @@ router.get('/logout', function(req, res) {
 });
 
 /* GET home page. */
-router.get('/', checkAuth, function(req, res, next) {
+router.get('/main', /*checkAuth,*/ function(req, res, next) {
+	location.push('/main');
 
 	var allClasses;
 	var fullname;
@@ -148,40 +127,19 @@ router.get('/', checkAuth, function(req, res, next) {
 	req.session.location = ['Home'];
 
 	// query the db for someone whose username is youngshiau
-	var query = classes.find().sort({className: 1});
+	var query = users.find( {email: req.session.email} );
 
 	// select the following fields from that user
-	query.select('className');
+	query.select('classes');
 
 	query.exec(function(err, classes) {
 		if(err) {
 			return handleError(err);
 		}
-		allClasses = classes;
-
-
-		// i dont wanna nest this like this, but it fixes the async thing.
-		// should fix this later, at some point. probably when i implement
-		// user logins
-
-		// query the db for someone whose username is youngshiau
-		query = users.findOne({email: req.session.email});
-
-		// select the following fields from that user
-		query.select('firstname lastname _id');
-
-		// execute the query and save the data into user
-		query.exec(function(err, user) {
-			if(err) {
-				return handleError(err);
-			}
-			fullname = user.firstname + ' ' + user.lastname;
-
-			res.render('index', { 	title: 'Home', 
-									view: 'home',
-									classes: allClasses,
-									fullname: fullname });
-		});
+		res.render('index', { 	title: 'Home', 
+								view: 'home',
+								classes: classes,
+								fullname: req.session.fullname });
 
 	});
 
@@ -190,9 +148,12 @@ router.get('/', checkAuth, function(req, res, next) {
 });
 
 /* GET class threads (all). */
-router.get('/class/:className', checkAuth, function(req, res, next) {
+router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 
 	var className = req.params['className'];
+
+	location.push('/class/' + className);
+
 	var title = "CSE " + className;
 	var fullname = req.session.fullname;
 	var allThreads;
@@ -216,12 +177,14 @@ router.get('/class/:className', checkAuth, function(req, res, next) {
 });
 
 /* GET class thread (single) */
-router.get('/class/:className/:id', checkAuth, function(req, res, next) {
+router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 
 	var className = req.params['className'];
 	var title = "CSE " + className;
 	var fullname = req.session.fullname;
 	var threadId = req.params['id'];
+
+	location.push('/class/' + className + '/' + threadId);
 
 	var query = threads.find({ _id: threadId });
 	query.select('title content time user _id');
@@ -247,18 +210,14 @@ router.get('/class/:className/:id', checkAuth, function(req, res, next) {
 	});
 });
 
-router.get('/newpost/:fullname/:time/:content', checkAuth, function(req, res, next) {
-	var fullname = req.params['fullname'];
-	var time = req.params['time'];
-	var content = req.params['content'];
-	// should actually receive IDs and do query.
-	var jsonText = '{' + 
-					'"fullname" : "' + fullname + '", ' +
-					'"time" : "' + time + '", ' +
-					'"content" : "' + content + '"' + 
-	           '}';
-
-	res.json(jsonText);
+router.get('/back', function(req, res) {
+	var newLocation = location.pop();
+	if(newLocation) {
+		res.redirect(newLocation);
+	}
+	else {
+		res.redirect('/');
+	}
 });
 
 /* GET class thread */

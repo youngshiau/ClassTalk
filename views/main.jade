@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  if view == 'loading'
+    // loading from main.jade
+    include login
+  else if view == 'login'
+    // login from main.jade
+    include login
+  else if view == 'registration'
+    // registration from main.jade
+    include register
+  else if view == 'home'
+    // home from main.jade
+    include classes
+  else if view == 'class'
+    // class from main.jade
+    include class-threads-all
+  else if view == 'class-thread'
+    // class-thread from main.jade
+    include class-threads-single
+
