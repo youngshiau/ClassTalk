@@ -144,7 +144,12 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 		console.log(req.session.uid);
 		console.log('user classes: ' + classes[0].classes);
 		//console.log(user);
-		var hasClasses = true;
+		var hasClasses;
+		if(classes[0].classes.length > 0) {
+			hasClasses = true;
+		} else {
+			hasClasses = false;
+		}
 
 
 		allClasses.find().sort({order: 1}).find(function(err, allClasses) {
@@ -170,22 +175,35 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 	var fullname = req.session.fullname;
 	var allThreads;
 
+	allClasses.find( {className: className}, '_id' ).find(function(err, classId) {
 
-	var query = threads.find().sort({title: 1});
-	query.select('title content time _id');
-	query.exec(function(err, threads) {
-		if(err) {
-			return handleError(err);
-		}
-		allThreads = threads;	
+		console.log('querying for: ' + classId[0]._id.toString());
 
-		res.render('main', { 	title: title, 
-						view: 'class', 
-						fullname: fullname,
-						className: className,
-						threads: allThreads,
-						back: '/main' });
+		var query = threads.find( { classId: classId[0]._id.toString() } ).lean().sort({title: 1});
+		query.select('title content time _id');
+		query.exec(function(err, threads) {
+
+			console.log('thread: ' + threads.length);
+			if(err) {
+				return handleError(err);
+			}
+			var hasThreads = false;
+			if(threads.length > 0) {
+				hasThreads = true;
+			}
+			allThreads = threads;	
+
+			res.render('main', { 	title: title, 
+							view: 'class', 
+							fullname: fullname,
+							className: className,
+							threads: allThreads,
+							hasThreads: hasThreads,
+							back: '/main' });
+		});
 	});
+
+
 
 });
 
@@ -245,10 +263,31 @@ router.post('/addClass', function(req, res) {
 
 /* add a thread */
 router.post('/addThread', function(req, res) {
-	var classId = '';
-	var userId = '';
-	var title = '';
-	var content = '';
+	var className = req.body.thread.className;
+	var userId = req.session.uid;
+	var title = req.body.thread.title;
+	var content = req.body.thread.content;
+
+	console.log(title);
+	console.log(content);
+	console.log(className);
+	console.log(userId);
+
+	allClasses.find({ className: className}, '_id', function(err, classId) {
+		var newThread = new threads({
+			classId: classId[0]._id.toString(),
+			userId: userId,
+			content: content,
+			title: title
+		});
+
+		newThread.save(function(err) {
+			if(err) {
+				console.log(err);
+			}
+			res.redirect('/class/' + className);
+		});
+	});
 });
 
 module.exports = router;

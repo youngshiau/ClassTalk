@@ -1,13 +1,16 @@
 ul
-  each val in threads
-    li
-      div
-        a(href='/class/#{className}/#{val.id}')
-          div.classtag ?
-          div.classname
-            div.posttitle #{val.title}
-            div.postpreview #{val.content}
-            div.posttime #{val.time}
+  if(hasThreads)
+    each val in threads
+      li
+        div
+          a(href='/class/#{className}/#{val.id}')
+            div.classtag ?
+            div.classname
+              div.posttitle #{val.title}
+              div.postpreview #{val.content}
+              div.posttime #{val.time}
+  else
+    div#nothreads There doesn't seem to be any threads here.
 div#new-thread.new-button  + New Thread
 div#threads
   form(action='/addThread', method='post')
@@ -16,6 +19,7 @@ div#threads
     br
     textarea(name='thread[content]', id='thread-content')
     br
+    input(type='hidden', name='thread[className]', value='#{className}')
     input(type='submit', value='Add Thread')
     br
     button#hide-thread Cancel
