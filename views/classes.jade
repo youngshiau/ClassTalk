@@ -7,3 +7,12 @@ ul
             div.classtag #{val.className}
             div.classname CSE #{val.className}
 div#new-class.new-button  + New Class
+div#classes
+  form(action='/addClass', method='post')
+    select(name='class')
+      each val in otherClasses
+        option(value='#{val.className}') CSE #{val.className}
+    br
+    input(type='submit', value='Add Class')
+    br
+    button#hide-class Cancel

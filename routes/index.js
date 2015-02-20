@@ -6,7 +6,6 @@ var router = express.Router();
 
 //router.use(checkAuth());
 
-//console.log('middleware used.');
 
 
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
@@ -27,7 +26,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 
 var users = require('../models/users');
-var classes = require('../models/classes');
+var allClasses = require('../models/classes');
 var threads = require('../models/threads');
 var posts = require('../models/posts');
 
@@ -54,8 +53,6 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res) {
 	var email = req.body.user.email;
 	var password = req.body.user.password;
-	console.log(email);
-	console.log(password);
 
 	users.findOne({ email: email }, function(err, user) {
 		if(err) {
@@ -63,19 +60,14 @@ router.post('/login', function(req, res) {
 		}
 
 		// check passwords
-		console.log('input pw: ' + password);
-		console.log('db pw: ' + user.password);
 		user.comparePassword(password, function(err, isMatch) {
 			if(err) {
 				throw err;
 			}
 
-			console.log('correct password? ', isMatch);
-
 			// authenticated; login
 			if(isMatch) {
 				req.session.uid = user._id;
-				console.log(req.session.uid);
 				req.session.email = email;
 				req.session.fullname = user.firstname + ' ' + user.lastname;
 				req.session.location = [];
@@ -91,7 +83,6 @@ router.post('/login', function(req, res) {
 
 router.get('/register', function(req, res) {
 	location.push('/register');
-	console.log('register');
 	res.render('main', { title: 'Register',
 						  view: 'register',
 						  back: '/login' });
@@ -130,7 +121,6 @@ router.get('/logout', function(req, res) {
 router.get('/main', /*checkAuth,*/ function(req, res, next) {
 	location.push('/main');
 
-	var allClasses;
 	var fullname;
 
 	req.session.location = ['Home'];
@@ -140,35 +130,31 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 
 	// select the following fields from that user
 	query.select('classes');
-
+	//users.findOne({ email: email }, function(err, user) {
+	//users.findOne( { _id: mongoose.Types.ObjectId(req.session.uid) }, function(err, user) {
 	query.exec(function(err, classes) {
 		if(err) {
 			return handleError(err);
 		}
+		//console.log('classes: ' + classes[0].classes[0]);
+		console.log(req.session.uid);
+		//console.log(user);
+		var hasClasses = true;
 
-		console.log('classes: ' + classes);
-		classes = classes.classes;
+		users.find({ email: '3@ucsd.edu'}, 'classes', function(err, user) {
+			console.log('user info: ' + user);
+		});
 
-		if(classes != 'undefined') {
-			hasClasses = false;
-		}
-		else {
-			hasClasses = true;
-		}
-
-		console.log('hasClasses: ' + hasClasses);
-
-		res.render('main', { 	title: 'Home', 
-								view: 'home',
-								classes: classes,
-								hasClasses: hasClasses,
-								fullname: req.session.fullname,
-								back: '/main' });
-
+		allClasses.find().sort({order: 1}).find(function(err, allClasses) {
+			res.render('main', { 	title: 'Home', 
+						view: 'home',
+						classes: /*user.*/classes,
+						hasClasses: hasClasses,
+						fullname: req.session.fullname,
+						otherClasses: allClasses,
+						back: '/main' });
+		});
 	});
-
-
-
 });
 
 /* GET class threads (all). */
@@ -238,7 +224,21 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 
 /* add a class */
 router.post('/addClass', function(req, res, next) {
+	console.log(1);
+	var className = req.body.class;
+	var uid = req.session.uid;
+	console.log(uid);
 
+	users.update(
+		{ _id: mongoose.Types.ObjectId(uid) },
+		{ $push: { 'classes': className} },
+		function(err, result) {
+			res.redirect('/main');
+		}
+	);
+	/*allClasses.findOne({ className: className }, function(err, newClass) {
+		console.log(2 + ': ' + newClass);
+	});*/
 });
 
 module.exports = router;

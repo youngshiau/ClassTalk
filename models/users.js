@@ -9,8 +9,6 @@ var UserSchema = Schema({
 	lastname: 	{type: String, required: true},
 	password: 	{type: String, required: true},
 	email: 		{type: String, required: true, unique: true},
-	code: 		{type: String},
-	confirmed: 	{type: Boolean},
 	classes: 	{type: [ObjectId]}
 });
 
@@ -51,7 +49,5 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
 };
 
 var User = mongoose.model('User', UserSchema);
-
-
 //mongoose.connect('mongodb://localhost/db');
 module.exports = User;

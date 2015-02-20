@@ -142,7 +142,6 @@ ul {
 	list-style:none;
 	margin:64px 0 0;
 	padding:0;
-	height:420px;
 	overflow:scroll;
 }
 
@@ -231,4 +230,35 @@ div.new-button {
 
 form {
 	margin-top: 150px;
+}
+
+#classes {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: darkgray;
+	top: 0px;
+	text-align: center;
+}
+
+#classes > form {
+	margin-left: 60px;
+	width: 50%;
+	padding: 15px;
+	background-color: white;
+	display: inline-block;
+	text-align: center;
+}
+
+#classes > form > select {
+	width: 100px;
+}
+
+#classes > form > input {
+	width: 100px;
+}
+
+#hide-class {
+	width: 100px;
 }
