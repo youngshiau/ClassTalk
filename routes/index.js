@@ -142,14 +142,15 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 		}
 		//console.log('classes: ' + classes[0].classes[0]);
 		console.log(req.session.uid);
-		console.log(classes);
+		console.log('user classes: ' + classes[0].classes);
 		//console.log(user);
 		var hasClasses = true;
+
 
 		allClasses.find().sort({order: 1}).find(function(err, allClasses) {
 			res.render('main', { 	title: 'Home', 
 						view: 'home',
-						classes: /*user.*/classes,
+						classes: classes[0].classes.sort(),
 						hasClasses: hasClasses,
 						fullname: req.session.fullname,
 						otherClasses: allClasses,
@@ -224,7 +225,7 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 });
 
 /* add a class */
-router.post('/addClass', function(req, res, next) {
+router.post('/addClass', function(req, res) {
 	console.log(1);
 	var className = req.body.class;
 	var uid = req.session.uid;
@@ -240,6 +241,14 @@ router.post('/addClass', function(req, res, next) {
 	/*allClasses.findOne({ className: className }, function(err, newClass) {
 		console.log(2 + ': ' + newClass);
 	});*/
+});
+
+/* add a thread */
+router.post('/addThread', function(req, res) {
+	var classId = '';
+	var userId = '';
+	var title = '';
+	var content = '';
 });
 
 module.exports = router;

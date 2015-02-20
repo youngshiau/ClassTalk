@@ -18,31 +18,36 @@ $(document).ready(function() {
 	$('#hide-class').click(hideClass);
 
 	$('#new-thread').click(addThread);
-	$('#hide-thread').click(hideClass);
+	$('#hide-thread').click(hideThread);
 
 	$('#new-post').click(addPost);
-	$('#hide-post').click(hideClass);
+	$('#hide-post').click(hidePost);
 
 });
 
 function addClass(e) {
-	console.log('adding a new class.');
-	//$('#classes');
 	$('#classes').show();
-	console.log('registering hide click');
-
 }
 
 function hideClass(e) {
-	console.log('canceling add class');
 	$('#classes').hide();
 	return false;
 }
 
 function addThread(e) {
-	console.log('adding a new thread: ');
+	$('#threads').show();
+}
+
+function hideThread(e) {
+	$('#threads').hide();
+	return false;
 }
 
 function addPost(e) {
 	console.log('adding a new post: ');
+}
+
+function hidePost(e) {
+	$('#posts').hide();
+	return false;
 }

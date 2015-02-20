@@ -1,17 +1,17 @@
 ul
   if(hasClasses)
-  	// hardcoded until i figure out classes
-  	li
-  	  div
-  	    a(href="/class/170")
-  	      div.classtag 170
-  	      div.classname CSE 170
+    // hardcoded until i figure out classes
+    li
+      div
+        a(href="/class/170")
+          div.classtag 170
+          div.classname CSE 170
     each val in classes
       li
         div
-          a(href="/class/#{val.className}")
-            div.classtag #{val.className}
-            div.classname CSE #{val.className}
+          a(href="/class/#{val}")
+            div.classtag #{val}
+            div.classname CSE #{val}
 div#new-class.new-button  + New Class
 div#classes
   form(action='/addClass', method='post')

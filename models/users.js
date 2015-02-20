@@ -9,7 +9,7 @@ var UserSchema = Schema({
 	lastname: 	{type: String, required: true},
 	password: 	{type: String, required: true},
 	email: 		{type: String, required: true, unique: true},
-	classes: 	{type: [ObjectId]}
+	classes: 	{type: [String]}
 });
 
 UserSchema.pre('save', function(next) {
