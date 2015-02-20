@@ -31,12 +31,7 @@ var threads = require('../models/threads');
 var posts = require('../models/posts');
 
 router.get('/', function(req, res) {
-	if(req.session) {
-		res.redirect('/main');
-	}
-	else {
-		res.redirect('/login');
-	}
+	res.redirect('/login');
 });
 
 /* GET login page. */
