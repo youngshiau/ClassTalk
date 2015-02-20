@@ -121,6 +121,10 @@ router.get('/logout', function(req, res) {
 router.get('/main', /*checkAuth,*/ function(req, res, next) {
 	location.push('/main');
 
+		users.find({}).exec( function(err, models) {
+			console.log('user info: ' + models.classes);
+		});
+
 	var fullname;
 
 	req.session.location = ['Home'];
@@ -138,12 +142,9 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 		}
 		//console.log('classes: ' + classes[0].classes[0]);
 		console.log(req.session.uid);
+		console.log(classes);
 		//console.log(user);
 		var hasClasses = true;
-
-		users.find({ email: '3@ucsd.edu'}, 'classes', function(err, user) {
-			console.log('user info: ' + user);
-		});
 
 		allClasses.find().sort({order: 1}).find(function(err, allClasses) {
 			res.render('main', { 	title: 'Home', 

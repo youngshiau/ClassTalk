@@ -25,6 +25,9 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+var users = require('./models/users');
+app.use('/users', users);
+
 app.use(logger('dev'));
 app.use(bodyParser());
 app.use(bodyParser.json());

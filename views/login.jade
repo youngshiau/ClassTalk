@@ -1,20 +1,10 @@
-extends loginlayout
-
-block content
-	#login-container
-		form(action='/login', method='post')
-			label Username 
-			input(type="text", name="user", id='user-tf').span4.required
-			br
-			label(for='pw') Password  	
-			input(type="password", name="pass", id='pass-tf').span4.required
-			button(href='/main' type="submit")#btn-login.btn.btn-primary
-				i.icon-lock.icon-white
-				| Sign in
-			label Remember Me
-				input(type="checkbox", checked='checked')
-			div.clear-fix
-			hr
-			div.btm-links
-				a(href='#')#forgot-password Forgot Your Password?
-				a(href='/register')#create-account Create An Account
+form(action='/login', method='post')
+  label(for='email') Email 
+  input(type='text', name='user[email]', id='email')
+  br
+  label(for='pw') Password
+  input(type='password', name='user[password]', id='pw')
+  br
+  input(type='submit', value='Log in')
+a(href='/register') 
+  button Register
