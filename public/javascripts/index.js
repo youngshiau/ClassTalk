@@ -23,6 +23,11 @@ $(document).ready(function() {
 	$('#new-post').click(addPost);
 	$('#hide-post').click(hidePost);
 
+	$('#pref').click(showPreferences);
+	$('#pref-hide').click(hidePreferences);
+
+	$('.delete').click(deleteClass);
+	$('#cancel-delete').click(cancelDeleteClass);
 });
 
 function addClass(e) {
@@ -49,5 +54,28 @@ function addPost(e) {
 
 function hidePost(e) {
 	$('#posts').hide();
+	return false;
+}
+
+function showPreferences(e) {
+	$('#pref-panel').show();
+}
+
+function hidePreferences(e) {
+	$('#pref-panel').hide();
+	return false;
+}
+
+function deleteClass(e) {
+	e.preventDefault();
+	var classNumber = $(this).attr('data');
+	$('#class-to-delete').html('CSE ' + classNumber + '?');
+	$('#hidden-class-to-delete').attr('value', classNumber);
+	$('#delete-class').show();
+	return false;
+}
+
+function cancelDeleteClass(e) {
+	$('#delete-class').hide();
 	return false;
 }

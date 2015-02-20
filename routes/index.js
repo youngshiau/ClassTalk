@@ -30,8 +30,6 @@ var allClasses = require('../models/classes');
 var threads = require('../models/threads');
 var posts = require('../models/posts');
 
-var location = [];
-
 router.get('/', function(req, res) {
 	if(req.session) {
 		res.redirect('/main');
@@ -43,7 +41,6 @@ router.get('/', function(req, res) {
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
-	location.push('/login');
 	res.render('main', { title: 'Login',
 				  		  view: 'login',
 				  		  back: '/login',
@@ -70,7 +67,8 @@ router.post('/login', function(req, res) {
 				req.session.uid = user._id;
 				req.session.email = email;
 				req.session.fullname = user.firstname + ' ' + user.lastname;
-				req.session.location = [];
+				req.session.firstname = user.firstname;
+				req.session.lastname = user.lastname;
 				res.redirect('/main');
 			} 
 			// failed; reject
@@ -82,7 +80,6 @@ router.post('/login', function(req, res) {
 });
 
 router.get('/register', function(req, res) {
-	location.push('/register');
 	res.render('main', { title: 'Register',
 						  view: 'register',
 						  back: '/login' });
@@ -119,15 +116,7 @@ router.get('/logout', function(req, res) {
 
 /* GET home page. */
 router.get('/main', /*checkAuth,*/ function(req, res, next) {
-	location.push('/main');
-
-		users.find({}).exec( function(err, models) {
-			console.log('user info: ' + models.classes);
-		});
-
 	var fullname;
-
-	req.session.location = ['Home'];
 
 	// query the db for someone whose username is youngshiau
 	var query = users.find( {_id: req.session.uid} );
@@ -155,9 +144,13 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 		allClasses.find().sort({order: 1}).find(function(err, allClasses) {
 			res.render('main', { 	title: 'Home', 
 						view: 'home',
+						url: '/main',
 						classes: classes[0].classes.sort(),
 						hasClasses: hasClasses,
 						fullname: req.session.fullname,
+						firstname: req.session.firstname,
+						lastname: req.session.lastname,
+						email: req.session.email,
 						otherClasses: allClasses,
 						back: '/main' });
 		});
@@ -168,8 +161,6 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 
 	var className = req.params['className'];
-
-	location.push('/class/' + className);
 
 	var title = "CSE " + className;
 	var fullname = req.session.fullname;
@@ -195,7 +186,11 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 
 			res.render('main', { 	title: title, 
 							view: 'class', 
+							url: '/class/' + className,
 							fullname: fullname,
+							firstname: req.session.firstname,
+							lastname: req.session.lastname,
+							email: req.session.email,
 							className: className,
 							threads: allThreads,
 							hasThreads: hasThreads,
@@ -215,8 +210,6 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 	var fullname = req.session.fullname;
 	var threadId = req.params['id'];
 
-	location.push('/class/' + className + '/' + threadId);
-
 	var query = threads.find({ _id: threadId });
 	query.select('title content time user _id');
 	query.exec(function(err, thread) {
@@ -229,12 +222,22 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 			if(err) {
 				return console.log(err);
 			}
+			var hasPosts = false;
+			console.log('posts: ' + allPosts);
+			if(allPosts.length > 0) {
+				hasPosts = true;
+			}
 			res.render('main', { 	title: title, 
 									view: 'class-thread', 
+									url: '/class/' + className + '/' + threadId,
 									fullname: fullname,
+									firstname: req.session.firstname,
+									lastname: req.session.lastname,
+									email: req.session.email,
 									className: className,
 									thread: thread,
 									posts: allPosts,
+									hasPosts: hasPosts,
 									back: '/class/' + className
 								});
 
@@ -316,6 +319,58 @@ router.post('/addPost', function(req, res) {
 			}
 			res.redirect('/class/' + className + '/' + threadId);
 		});
+	});
+});
+
+router.post('/updatePreferences', function(req, res) {
+	var url = req.body.page.url;
+	var email = req.session.email;
+
+	var newFirstname = req.body.user.firstname;
+	var newLastname = req.body.user.lastname;
+	var newEmail = req.body.user.email;
+	var userPassword = req.body.user.password;
+
+	users.findOne({ email: email }, function(err, user) {
+		if(err) {
+			throw err;
+		}
+
+		// check passwords
+		user.comparePassword(userPassword, function(err, isMatch) {
+			if(err) {
+				throw err;
+			}
+
+			// authenticated; update info
+			if(isMatch) {
+				var updatedUser = {
+					firstname: newFirstname,
+					lastname: newLastname,
+					email: newEmail
+				};
+
+				users.update( { email: email }, { $set: updatedUser }, function(err, result) {
+					req.session.email = newEmail;
+					req.session.firstname = newFirstname;
+					req.session.lastname = newLastname;
+					req.session.fullname = newFirstname + ' ' + newLastname;
+					res.redirect(url);
+				});
+			} 
+			// failed; reject
+			else {
+				res.send('incorrect password');
+			}
+		});
+	});
+});
+
+router.post('/deleteClass', function(req, res) {
+	var classNumber = req.body.class.classNumber;
+	var url = req.body.return.url;
+	users.update( { _id: req.session.uid}, { $pull: {classes: classNumber } }, function(err) {
+		res.redirect(url);
 	});
 });
 

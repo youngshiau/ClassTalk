@@ -21,12 +21,30 @@ html(lang="en-US")
     block content
   div#settings-panel
     div Hello, #{fullname}
-    div Notifications
-    div Preferences
+    div#notif Notifications
+    div#pref Preferences
     div 
       a(href='/logout') Logout
   div#search-panel
     div.inner
       span
-        input(type="text")
+        input(type="text" value="UNFULFILLED STRETCH GOAL")
       i.fa.fa-search
+  div#pref-panel
+    form(action='/updatePreferences', method='post')
+      label(for='firstname') First Name 
+      label(for='lastname') Last Name
+      br
+      input(type='text', name='user[firstname]', id='firstname' value='#{firstname}')
+      input(type='text', name='user[lastname]', id='lastname' value='#{lastname}')
+      br
+      label(for='email') Email
+      input(type='text', name='user[email]', id='email' value='#{email}')
+      br
+      label(for='pw') Password
+      input(type='password', name='user[password]', id='pw')
+      br
+      input(type='hidden', name='page[url]', value='#{url}')
+      input(type='submit', value='Update Preferences')
+      br
+      button#pref-hide Cancel

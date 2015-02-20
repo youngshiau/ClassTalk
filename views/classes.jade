@@ -6,6 +6,7 @@ ul
           a(href="/class/#{val}")
             div.classtag #{val}
             div.classname CSE #{val}
+            div.delete(data='#{val}') X
   else
     div#noclasses You don't seem to have any classes added.
 div#new-class.new-button  + New Class
@@ -18,3 +19,12 @@ div#classes
     input(type='submit', value='Add Class')
     br
     button#hide-class Cancel
+div#delete-class
+  form(action='/deleteClass', method='post')
+    label(for='yes') Are you sure you want to delete <span id='class-to-delete'></span>
+    br
+    input(type='hidden', id='hidden-class-to-delete', name='class[classNumber]', value='')
+    input(type='hidden', id='post-delete-url', name='return[url]', value='#{url}')
+    input(type='submit', name='yes', value='Yes')
+    button#cancel-delete No
+

@@ -6,14 +6,17 @@ ul
         h3 #{thread.title}
       div.postcontent 
         p #{thread.content}
-  for post in posts
-    li.comment
-      div.classname
-        div.pic.young
-        div #{fullname}
-        div.posttime #{post.time}
-        div.postcontent 
-          p #{post.content}
+  if(hasPosts)
+    for post in posts
+      li.comment
+        div.classname
+          div.pic.young
+          div #{fullname}
+          div.posttime #{post.time}
+          div.postcontent 
+            p #{post.content}
+  else
+    div#noposts There doesn't seem to be any posts here.
 div#new-post.new-button  + New Post
 div#posts
   form(action='/addPost', method='post')

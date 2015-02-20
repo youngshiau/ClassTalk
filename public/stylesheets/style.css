@@ -237,7 +237,7 @@ form {
 	width: 100%;
 	height: 100%;
 	display: none;
-	background-color: darkgray;
+	background-color: rgba(0,0,0,.7);
 	top: 0px;
 	text-align: center;
 }
@@ -268,7 +268,7 @@ form {
 	width: 100%;
 	height: 100%;
 	display: none;
-	background-color: darkgray;
+	background-color: rgba(0,0,0,.7);
 	top: 0px;
 	text-align: center;
 }
@@ -295,7 +295,7 @@ form {
 	width: 100%;
 	height: 100%;
 	display: none;
-	background-color: darkgray;
+	background-color: rgba(0,0,0,.7);
 	top: 0px;
 	text-align: center;
 }
@@ -311,4 +311,64 @@ form {
 
 #posts > form > textarea {
 	width: 150px;
+}
+
+#notif {
+	text-decoration: line-through;
+	color: gray;
+}
+
+#pref-panel {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0,0,0,.7);
+	top: 0px;
+	text-align: center;
+}
+
+#pref-panel > form {
+	margin-left: 60px;
+	width: 50%;
+	padding: 15px;
+	background-color: white;
+	display: inline-block;
+	text-align: center;
+}
+
+.delete {
+	display: table-cell;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 20px;
+	font-weight: 300;
+	background: #AB0000;
+	color: #fff;
+}
+
+#delete-class {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0,0,0,.7);
+	top: 0px;
+	text-align: center;
+}
+
+#delete-class > form {
+	margin-left: 60px;
+	width: 50%;
+	padding: 15px;
+	background-color: white;
+	display: inline-block;
+	text-align: center;
+}
+
+#delete-class > form > input, #delete-class > form > button {
+	width: 100px;
+	margin: 10px;
 }
