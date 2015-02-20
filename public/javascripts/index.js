@@ -44,7 +44,7 @@ function hideThread(e) {
 }
 
 function addPost(e) {
-	console.log('adding a new post: ');
+	$('#posts').show();
 }
 
 function hidePost(e) {

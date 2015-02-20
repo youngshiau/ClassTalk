@@ -15,3 +15,12 @@ ul
         div.postcontent 
           p #{post.content}
 div#new-post.new-button  + New Post
+div#posts
+  form(action='/addPost', method='post')
+    textarea(name='post[content]', id='thread-content')
+    br
+    input(type='hidden', name='post[className]', value='#{className}')
+    input(type='hidden', name='post[threadId]', value='#{thread._id}')
+    input(type='submit', value='Add Post')
+    br
+    button#hide-post Cancel

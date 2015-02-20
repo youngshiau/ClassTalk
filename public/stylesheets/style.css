@@ -289,3 +289,26 @@ form {
 #threads > form > input {
 	width: 100px;
 }
+
+#posts {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: darkgray;
+	top: 0px;
+	text-align: center;
+}
+
+#posts > form {
+	margin-left: 60px;
+	width: 50%;
+	padding: 15px;
+	background-color: white;
+	display: inline-block;
+	text-align: center;
+}
+
+#posts > form > textarea {
+	width: 150px;
+}

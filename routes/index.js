@@ -138,7 +138,7 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 	//users.findOne( { _id: mongoose.Types.ObjectId(req.session.uid) }, function(err, user) {
 	query.exec(function(err, classes) {
 		if(err) {
-			return handleError(err);
+			return console.log(err);
 		}
 		//console.log('classes: ' + classes[0].classes[0]);
 		console.log(req.session.uid);
@@ -183,9 +183,9 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 		query.select('title content time _id');
 		query.exec(function(err, threads) {
 
-			console.log('thread: ' + threads.length);
+			console.log('thread: ' + threads);
 			if(err) {
-				return handleError(err);
+				return console.log(err);
 			}
 			var hasThreads = false;
 			if(threads.length > 0) {
@@ -221,13 +221,13 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 	query.select('title content time user _id');
 	query.exec(function(err, thread) {
 		if(err) {
-			return handleError(err);
+			return console.log(err);
 		}
 		thread = thread[0];
 		query = posts.find({ threadId: threadId });
 		query.exec(function(err, allPosts) {
 			if(err) {
-				return handleError(err);
+				return console.log(err);
 			}
 			res.render('main', { 	title: title, 
 									view: 'class-thread', 
@@ -286,6 +286,35 @@ router.post('/addThread', function(req, res) {
 				console.log(err);
 			}
 			res.redirect('/class/' + className);
+		});
+	});
+});
+
+router.post('/addPost', function(req, res) {
+	var className = req.body.post.className;
+	var threadId = req.body.post.threadId;
+	var userId = req.session.uid;
+	var content = req.body.post.content;
+
+	console.log('thread: ' + threadId);
+	threads.findOne({ _id: threadId }, 'classId', function(err, classId) {
+		console.log('class: ' + classId.classId);
+
+
+		var newPost = new posts({
+			classId: classId.classId,
+			threadId: threadId,
+			userId: userId,
+			content: content
+		});
+
+		console.log('here!');
+
+		newPost.save(function(err) {
+			if(err) {
+				console.log(err);
+			}
+			res.redirect('/class/' + className + '/' + threadId);
 		});
 	});
 });
