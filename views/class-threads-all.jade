@@ -15,9 +15,9 @@ div#new-thread.new-button  + New Thread
 div#threads
   form(action='/addThread', method='post')
     label(for='thread-title') Title:&nbsp;
-    input(type='text', name='thread[title]', id='thread-title')
+    input(type='text', name='thread[title]', id='thread-title' required)
     br
-    textarea(name='thread[content]', id='thread-content')
+    textarea(name='thread[content]', id='thread-content' required)
     br
     input(type='hidden', name='thread[className]', value='#{className}')
     input(type='submit', value='Add Thread')

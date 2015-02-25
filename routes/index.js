@@ -253,20 +253,34 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 			if(allPosts.length > 0) {
 				hasPosts = true;
 			}
-			res.render('main', { 	title: title, 
-									view: 'class-thread', 
-									url: '/class/' + className + '/' + threadId,
-									fullname: fullname,
-									firstname: req.session.firstname,
-									lastname: req.session.lastname,
-									email: req.session.email,
-									className: className,
-									thread: thread,
-									posts: allPosts,
-									hasPosts: hasPosts,
-									back: '/class/' + className
-								});
+			query = users.find();
+			query.exec(function(err, tempUsers) {
 
+				var allUsers = {};
+				console.log(tempUsers);
+				console.log(tempUsers[0]._id);
+				for(var i = 0; i < tempUsers.length; i++) {
+					var id = tempUsers[i]._id;
+					var name = tempUsers[i].firstname + ' ' + tempUsers[i].lastname;
+					allUsers[id] = name;
+				}
+				console.log(allUsers);
+
+				res.render('main', { 	title: title, 
+										view: 'class-thread', 
+										url: '/class/' + className + '/' + threadId,
+										fullname: fullname,
+										firstname: req.session.firstname,
+										lastname: req.session.lastname,
+										email: req.session.email,
+										users: allUsers,
+										className: className,
+										thread: thread,
+										posts: allPosts,
+										hasPosts: hasPosts,
+										back: '/class/' + className
+									});
+			});
 		});
 	});
 });
