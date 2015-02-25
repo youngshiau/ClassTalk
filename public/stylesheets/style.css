@@ -224,9 +224,10 @@ div.new-button {
     bottom: 0px;
     padding-top: 20px;
     padding-bottom: 20px;
-    background-color: #354458;
-    color: white;
-}
+	background-color: #B6EAA0;
+	color: #3c763d;
+	border: 2px #3c763d solid;
+} 
 
 form {
 	margin-top: 150px;
@@ -371,4 +372,42 @@ form {
 #delete-class > form > input, #delete-class > form > button {
 	width: 100px;
 	margin: 10px;
+}
+
+input.fail {
+	border: 1px #ebccd1 solid;
+}
+
+div.fail {
+	background-color: #f2dede;
+	border-color: #ebccd1;
+	margin-bottom: 5px;
+	padding: 5px;
+
+}
+
+.fail {
+	color: #a94442;
+}
+
+label {
+	display: inline-block;
+	width: 100px;
+}
+
+.button {
+	width: 255px;
+}
+
+.box {
+	width: 150px;
+}
+.centered-box {
+	margin-left: auto;
+	margin-right: auto;
+	width: 256px;
+}
+
+.login, .register {
+	margin-top: 20px;
 }

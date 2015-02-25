@@ -36,25 +36,37 @@ router.get('/', function(req, res) {
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
-	res.render('main', { title: 'Login',
-				  		  view: 'login',
-				  		  back: '/login',
-				  		  success: true });
+	res.render('main', {	title: 'Login',
+				  		  	view: 'login',
+				  		  	back: '/login',
+				  		  	success: true });
 });
 
-router.post('/login', function(req, res) {
+router.get('/invalid-login', function(req, res, next) {
+	res.render('main', { 	title: 'Login',
+							view: 'login',
+							back: '/login',
+							success: false });
+});
+
+router.post('/login', function(req, res, next) {
 	var email = req.body.user.email;
 	var password = req.body.user.password;
 
 	users.findOne({ email: email }, function(err, user) {
 		if(err) {
-			throw err;
+			return next(err);
+		}
+
+		// user needs to provide input
+		if(user == null) {
+			return next(err);
 		}
 
 		// check passwords
 		user.comparePassword(password, function(err, isMatch) {
 			if(err) {
-				throw err;
+				return next(err);
 			}
 
 			// authenticated; login
@@ -68,7 +80,8 @@ router.post('/login', function(req, res) {
 			} 
 			// failed; reject
 			else {
-				res.send('login failed');
+				res.redirect('/invalid-login/');
+				//res.send('login failed');
 			}
 		});
 	});
@@ -105,51 +118,55 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/logout', function(req, res) {
-	delete req.session;
+	req.session.destroy();
 	res.redirect('/login');
 });
 
 /* GET home page. */
 router.get('/main', /*checkAuth,*/ function(req, res, next) {
-	var fullname;
+	console.log('req.session: ' + req.session);
+	console.log(!req.session.uid);
+	if(!req.session || !req.session.uid) {
+		res.redirect('/');
+	}
+	else {
 
-	// query the db for someone whose username is youngshiau
-	var query = users.find( {_id: req.session.uid} );
+		var fullname;
 
-	// select the following fields from that user
-	query.select('classes');
-	//users.findOne({ email: email }, function(err, user) {
-	//users.findOne( { _id: mongoose.Types.ObjectId(req.session.uid) }, function(err, user) {
-	query.exec(function(err, classes) {
-		if(err) {
-			return console.log(err);
-		}
-		//console.log('classes: ' + classes[0].classes[0]);
-		console.log(req.session.uid);
-		console.log('user classes: ' + classes[0].classes);
-		//console.log(user);
-		var hasClasses;
-		if(classes[0].classes.length > 0) {
-			hasClasses = true;
-		} else {
-			hasClasses = false;
-		}
+		// query the db for someone whose username is youngshiau
+		var query = users.find( {_id: req.session.uid} );
 
+		// select the following fields from that user
+		query.select('classes');
+		//users.findOne({ email: email }, function(err, user) {
+		//users.findOne( { _id: mongoose.Types.ObjectId(req.session.uid) }, function(err, user) {
+		query.exec(function(err, classes) {
+			if(err) {
+				return next(err);
+			}
 
-		allClasses.find().sort({order: 1}).find(function(err, allClasses) {
-			res.render('main', { 	title: 'Home', 
-						view: 'home',
-						url: '/main',
-						classes: classes[0].classes.sort(),
-						hasClasses: hasClasses,
-						fullname: req.session.fullname,
-						firstname: req.session.firstname,
-						lastname: req.session.lastname,
-						email: req.session.email,
-						otherClasses: allClasses,
-						back: '/main' });
+			var hasClasses;
+			if(classes[0].classes.length > 0) {
+				hasClasses = true;
+			} else {
+				hasClasses = false;
+			}
+
+			allClasses.find().sort({order: 1}).find(function(err, allClasses) {
+				res.render('main', { 	title: 'Home', 
+							view: 'home',
+							url: '/main',
+							classes: classes[0].classes.sort(),
+							hasClasses: hasClasses,
+							fullname: req.session.fullname,
+							firstname: req.session.firstname,
+							lastname: req.session.lastname,
+							email: req.session.email,
+							otherClasses: allClasses,
+							back: '/main' });
+			});
 		});
-	});
+	}
 });
 
 /* GET class threads (all). */
@@ -260,7 +277,7 @@ router.post('/addClass', function(req, res) {
 });
 
 /* add a thread */
-router.post('/addThread', function(req, res) {
+router.post('/addThread', function(req, res, next) {
 	var className = req.body.thread.className;
 	var userId = req.session.uid;
 	var title = req.body.thread.title;
@@ -281,7 +298,7 @@ router.post('/addThread', function(req, res) {
 
 		newThread.save(function(err) {
 			if(err) {
-				console.log(err);
+				return next(err);
 			}
 			res.redirect('/class/' + className);
 		});
@@ -328,13 +345,13 @@ router.post('/updatePreferences', function(req, res) {
 
 	users.findOne({ email: email }, function(err, user) {
 		if(err) {
-			throw err;
+			return next(err);
 		}
 
 		// check passwords
 		user.comparePassword(userPassword, function(err, isMatch) {
 			if(err) {
-				throw err;
+				return next(err);
 			}
 
 			// authenticated; update info

@@ -1,15 +1,18 @@
-form(action='/register', method='post')
-  label(for='firstname') First Name 
-  input(type='text', name='user[firstname]', id='firstname')
-  label(for='lastname') Last Name
-  input(type='text', name='user[lastname]', id='lastname')
-  br
-  label(for='email') Email 
-  input(type='text', name='user[email]', id='email')
-  br
-  label(for='pw') Password
-  input(type='password', name='user[password]', id='pw')
-  br
-  input(type='submit' value='Register')
-a(href='/login') 
-  button Login
+div.centered-box
+  form(action='/register', method='post')
+    label(for='firstname') First Name 
+    input.box(type='text', name='user[firstname]', id='firstname' required)
+    br
+    label(for='lastname') Last Name
+    input.box(type='text', name='user[lastname]', id='lastname' required)
+    br
+    label(for='email') Email 
+    input.box(type='text', name='user[email]', id='email' required)
+    br
+    label(for='pw') Password
+    input.box(type='password', name='user[password]', id='pw' required)
+    br
+    input.button(type='submit' value='Register')
+  div.login Already have an account?
+    a(href='/login') 
+      button.button Cancel
