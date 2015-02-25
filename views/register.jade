@@ -1,18 +1,34 @@
 div.centered-box
   form(action='/register', method='post')
-    label(for='firstname') First Name 
-    input.box(type='text', name='user[firstname]', id='firstname' required)
-    br
-    label(for='lastname') Last Name
-    input.box(type='text', name='user[lastname]', id='lastname' required)
-    br
-    label(for='email') Email 
-    input.box(type='text', name='user[email]', id='email' required)
-    br
-    label(for='pw') Password
-    input.box(type='password', name='user[password]', id='pw' required)
-    br
-    input.button(type='submit' value='Register')
+    if(success)
+      label(for='firstname') First Name 
+      input.box(type='text', name='user[firstname]', id='firstname' required)
+      br
+      label(for='lastname') Last Name
+      input.box(type='text', name='user[lastname]', id='lastname' required)
+      br
+      label(for='email') Email 
+      input.box(type='text', name='user[email]', id='email' required)
+      br
+      label(for='pw') Password
+      input.box(type='password', name='user[password]', id='pw' required)
+      br
+      input.button(type='submit' value='Register')
+    else
+      div.fail This email has already been taken.
+      label(for='firstname') First Name 
+      input.box(type='text', name='user[firstname]', id='firstname' required)
+      br
+      label(for='lastname') Last Name
+      input.box(type='text', name='user[lastname]', id='lastname' required)
+      br
+      label.fail(for='email') Email 
+      input.fail.box(type='text', name='user[email]', id='email' required)
+      br
+      label(for='pw') Password
+      input.box(type='password', name='user[password]', id='pw' required)
+      br
+      input.button(type='submit' value='Register')    
   div.login Already have an account?
     a(href='/login') 
       button.button Cancel

@@ -375,7 +375,7 @@ form {
 }
 
 input.fail {
-	border: 1px #ebccd1 solid;
+	border: 2px #83192b solid;
 }
 
 div.fail {

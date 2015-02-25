@@ -4,9 +4,20 @@ var mongoose = require('mongoose');
 
 var router = express.Router();
 
-//router.use(checkAuth());
-
-
+// compare function for sorting classes
+function cmp(a, b) {
+	var tempA = parseInt(a);
+	var tempB = parseInt(b);
+	if(tempA != tempB) {
+		if(tempA < tempB) {
+			return -1;
+		}
+		else {
+			return 1;
+		}
+	}
+	return b < a;
+}
 
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
                 replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } }; 
@@ -49,6 +60,13 @@ router.get('/invalid-login', function(req, res, next) {
 							success: false });
 });
 
+router.get('/invalid-registration', function(req, res, next) {
+	res.render('main', {    title: 'Register',
+							view: 'register',
+							back: '/register',
+							success: false });
+});
+
 router.post('/login', function(req, res, next) {
 	var email = req.body.user.email;
 	var password = req.body.user.password;
@@ -58,39 +76,42 @@ router.post('/login', function(req, res, next) {
 			return next(err);
 		}
 
-		// user needs to provide input
 		if(user == null) {
-			return next(err);
+			res.redirect('/invalid-login');
 		}
+		else {
 
-		// check passwords
-		user.comparePassword(password, function(err, isMatch) {
-			if(err) {
-				return next(err);
-			}
+			// check passwords
+			user.comparePassword(password, function(err, isMatch) {
+				if(err) {
+					return next(err);
+				}
 
-			// authenticated; login
-			if(isMatch) {
-				req.session.uid = user._id;
-				req.session.email = email;
-				req.session.fullname = user.firstname + ' ' + user.lastname;
-				req.session.firstname = user.firstname;
-				req.session.lastname = user.lastname;
-				res.redirect('/main');
-			} 
-			// failed; reject
-			else {
-				res.redirect('/invalid-login/');
-				//res.send('login failed');
-			}
-		});
+				// authenticated; login
+				if(isMatch) {
+					req.session.uid = user._id;
+					req.session.email = email;
+					req.session.fullname = user.firstname + ' ' + user.lastname;
+					req.session.firstname = user.firstname;
+					req.session.lastname = user.lastname;
+					res.redirect('/main');
+				} 
+				// failed; reject
+				else {
+					res.redirect('/invalid-login/');
+					//res.send('login failed');
+				}
+			});
+
+		}
 	});
 });
 
 router.get('/register', function(req, res) {
 	res.render('main', { title: 'Register',
 						  view: 'register',
-						  back: '/login' });
+						  back: '/login',
+						  success: 'true' });
 });
 
 router.post('/register', function(req, res) {
@@ -109,11 +130,11 @@ router.post('/register', function(req, res) {
 	newUser.save(function(err) {
 		if(err) {
 			// email already exists;
-			console.log('email already exists: ' + err);
-			res.send('Error: email already exists in system.');
+			res.redirect('/invalid-registration');
 		}
-
-		res.redirect('/login');
+		else {
+			res.redirect('/login');
+		}
 	});
 });
 
@@ -124,8 +145,6 @@ router.get('/logout', function(req, res) {
 
 /* GET home page. */
 router.get('/main', /*checkAuth,*/ function(req, res, next) {
-	console.log('req.session: ' + req.session);
-	console.log(!req.session.uid);
 	if(!req.session || !req.session.uid) {
 		res.redirect('/');
 	}
@@ -134,12 +153,10 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 		var fullname;
 
 		// query the db for someone whose username is youngshiau
-		var query = users.find( {_id: req.session.uid} );
+		var query = users.find( {_id: req.session.uid} ).sort({order: 1});
 
 		// select the following fields from that user
 		query.select('classes');
-		//users.findOne({ email: email }, function(err, user) {
-		//users.findOne( { _id: mongoose.Types.ObjectId(req.session.uid) }, function(err, user) {
 		query.exec(function(err, classes) {
 			if(err) {
 				return next(err);
@@ -156,7 +173,7 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 				res.render('main', { 	title: 'Home', 
 							view: 'home',
 							url: '/main',
-							classes: classes[0].classes.sort(),
+							classes: classes[0].classes.sort(cmp),
 							hasClasses: hasClasses,
 							fullname: req.session.fullname,
 							firstname: req.session.firstname,
@@ -180,13 +197,11 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 
 	allClasses.find( {className: className}, '_id' ).find(function(err, classId) {
 
-		console.log('querying for: ' + classId[0]._id.toString());
 
 		var query = threads.find( { classId: classId[0]._id.toString() } ).lean().sort({title: 1});
 		query.select('title content time _id');
 		query.exec(function(err, threads) {
 
-			console.log('thread: ' + threads);
 			if(err) {
 				return console.log(err);
 			}
@@ -235,7 +250,6 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 				return console.log(err);
 			}
 			var hasPosts = false;
-			console.log('posts: ' + allPosts);
 			if(allPosts.length > 0) {
 				hasPosts = true;
 			}
@@ -259,21 +273,16 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 
 /* add a class */
 router.post('/addClass', function(req, res) {
-	console.log(1);
 	var className = req.body.class;
 	var uid = req.session.uid;
-	console.log(uid);
 
 	users.update(
 		{ _id: mongoose.Types.ObjectId(uid) },
-		{ $push: { 'classes': className} },
+		{ $addToSet: { 'classes': className} },
 		function(err, result) {
 			res.redirect('/main');
 		}
 	);
-	/*allClasses.findOne({ className: className }, function(err, newClass) {
-		console.log(2 + ': ' + newClass);
-	});*/
 });
 
 /* add a thread */
@@ -282,11 +291,6 @@ router.post('/addThread', function(req, res, next) {
 	var userId = req.session.uid;
 	var title = req.body.thread.title;
 	var content = req.body.thread.content;
-
-	console.log(title);
-	console.log(content);
-	console.log(className);
-	console.log(userId);
 
 	allClasses.find({ className: className}, '_id', function(err, classId) {
 		var newThread = new threads({
@@ -311,9 +315,7 @@ router.post('/addPost', function(req, res) {
 	var userId = req.session.uid;
 	var content = req.body.post.content;
 
-	console.log('thread: ' + threadId);
 	threads.findOne({ _id: threadId }, 'classId', function(err, classId) {
-		console.log('class: ' + classId.classId);
 
 
 		var newPost = new posts({
@@ -323,7 +325,6 @@ router.post('/addPost', function(req, res) {
 			content: content
 		});
 
-		console.log('here!');
 
 		newPost.save(function(err) {
 			if(err) {
