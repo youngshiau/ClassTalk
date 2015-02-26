@@ -36,6 +36,7 @@ function addClass(e) {
 
 function hideClass(e) {
 	$('#classes').hide();
+	zoomOut();
 	return false;
 }
 
@@ -45,6 +46,7 @@ function addThread(e) {
 
 function hideThread(e) {
 	$('#threads').hide();
+	zoomOut();
 	return false;
 }
 
@@ -54,6 +56,7 @@ function addPost(e) {
 
 function hidePost(e) {
 	$('#posts').hide();
+	zoomOut();
 	return false;
 }
 
@@ -63,6 +66,7 @@ function showPreferences(e) {
 
 function hidePreferences(e) {
 	$('#pref-panel').hide();
+	zoomOut();
 	return false;
 }
 
@@ -77,5 +81,17 @@ function deleteClass(e) {
 
 function cancelDeleteClass(e) {
 	$('#delete-class').hide();
+	zoomOut();
 	return false;
+}
+
+function zoomOut() {
+    $(document.body).css({
+        zoom : '',
+        position : '',
+        left: "",
+        top: "",
+        "-moz-transform" : "",
+        width : ''  
+    });
 }

@@ -33,9 +33,9 @@ html(lang="en-US")
   div#pref-panel
     form(action='/updatePreferences', method='post')
       label(for='firstname') First Name 
-      label(for='lastname') Last Name
-      br
       input(type='text', name='user[firstname]', id='firstname' value='#{firstname}')
+      br
+      label(for='lastname') Last Name
       input(type='text', name='user[lastname]', id='lastname' value='#{lastname}')
       br
       label(for='email') Email
