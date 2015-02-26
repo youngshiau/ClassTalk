@@ -1,13 +1,14 @@
 div#nav-bar.nav
   if(fullname)
-    div#home.block
-      a(href='/main')
-        i.fa.fa-home
-        div.nav-title HOME
-    div#back.block
-      a(href='#{back}')
-        i.fa.fa-arrow-left
-        div.nav-title BACK
+    if(view != 'home')
+      div#home.block
+        a(href='/main')
+          i.fa.fa-home
+          div.nav-title HOME
+      div#back.block
+        a(href='#{back}')
+          i.fa.fa-arrow-left
+          div.nav-title BACK
   div.title #{title}
   if(fullname)
     div#search.block
