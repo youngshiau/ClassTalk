@@ -458,3 +458,7 @@ label {
 #notif, #pref, #change, #logout {
 	background-color: aliceblue;
 }
+
+.hidden {
+	display: none;
+}

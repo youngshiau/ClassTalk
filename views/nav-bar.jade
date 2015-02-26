@@ -1,10 +1,21 @@
 div#nav-bar.nav
   if(fullname)
-    if(view != 'home')
+    if view == 'home'
+      div#home.hidden.block
+        a(href='/main')
+          i.fa.fa-home
+          div.nav-title HOME
+    else
       div#home.block
         a(href='/main')
           i.fa.fa-home
           div.nav-title HOME
+    if view == 'home' 
+      div#back.hidden.block
+        a(href='#{back}')
+          i.fa.fa-arrow-left
+          div.nav-title BACK
+    else
       div#back.block
         a(href='#{back}')
           i.fa.fa-arrow-left
