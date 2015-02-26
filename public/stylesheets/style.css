@@ -450,3 +450,11 @@ label {
 #old {
 	display: none;
 }
+
+#settings-panel > div {
+	border-bottom: 2px rgb(0, 122, 197) solid;
+}
+
+#notif, #pref, #change, #logout {
+	background-color: aliceblue;
+}
