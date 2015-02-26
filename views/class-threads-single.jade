@@ -17,7 +17,7 @@ ul
             p #{post.content}
   else
     div#noposts There doesn't seem to be any posts here.
-div#new-post.new-button  + New Post
+div#new-post.new-button  + Add Comment
 div#posts
   form(action='/addPost', method='post')
     textarea(name='post[content]', id='thread-content' required)
