@@ -1,5 +1,7 @@
+var version = 1;
+
 $(document).ready(function() {
-	
+
 	$('#settings').click(function() {
 		$('#search').removeClass('invert');
 		$('#settings').toggleClass('invert');
@@ -28,6 +30,8 @@ $(document).ready(function() {
 
 	$('.delete').click(deleteClass);
 	$('#cancel-delete').click(cancelDeleteClass);
+
+	$('#change').click(toggleVersion);
 });
 
 function addClass(e) {
@@ -94,4 +98,27 @@ function zoomOut() {
         "-moz-transform" : "",
         width : ''  
     });
+}
+
+function switchToOld() {
+	version = 0;
+	$('#version').attr('href', '/stylesheets/style-old.css');
+	$('#new').hide();
+	$('#old').show();
+}
+
+function switchToNew() {
+	version = 1;
+	$('#version').attr('href', '/stylesheets/style.css');
+	$('#new').show();
+	$('#old').hide();	
+}
+
+function toggleVersion() {
+	if(version == 1) {
+		switchToOld();
+	}
+	else {
+		switchToNew();
+	}
 }

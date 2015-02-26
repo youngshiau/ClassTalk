@@ -56,8 +56,6 @@
 	padding-left: 120px;
 	padding-right: 120px;
 	width: auto;
-	background-color: black;
-	color: white;
 }
 
 #nav-bar {
@@ -263,9 +261,8 @@ form {
 	width: 100px;
 }
 
-#hide-class, #hide-thread, #hide-post {
+#hide-class {
 	width: 100px;
-	margin-top: 5px;
 }
 
 #threads {
@@ -279,6 +276,7 @@ form {
 }
 
 #threads > form {
+	margin-left: 60px;
 	width: 50%;
 	padding: 15px;
 	background-color: white;
@@ -287,20 +285,11 @@ form {
 }
 
 #threads > form > textarea {
-	width: 200px;
-	margin-top: 10px;
+	width: 150px;
 }
 
 #threads > form > input {
 	width: 100px;
-}
-
-#thread-title  {
-	width: 150px;
-}
-
-#threads > form > label {
-	width: 50px;
 }
 
 #posts {
@@ -323,12 +312,7 @@ form {
 }
 
 #posts > form > textarea {
-	width: 200px;
-	height: 100px;
-}
-
-#posts > form > input {
-	width: 100px;
+	width: 150px;
 }
 
 #notif {
@@ -361,12 +345,7 @@ form {
 	width: 40px;
 	text-align: center;
 	vertical-align: middle;
-	/*font-size: 20px;*/
-	position: absolute;
-	right: 10px;
-	margin-top: -40px;
-	font-size: 30px;
-
+	font-size: 20px;
 	font-weight: 300;
 	background: #AB0000;
 	color: #fff;
@@ -436,17 +415,4 @@ label {
 
 #thread {
 	background-color: lightblue;
-}
-
-#pref-panel > form > label {
-	text-align: left;
-}
-
-#pref-panel > form > input, #pref-hide {
-	width: 150px;
-	margin-top: 5px;
-}
-
-#old {
-	display: none;
 }
