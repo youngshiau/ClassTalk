@@ -67,7 +67,8 @@
 	top: 64px;
 	right: 0px;
 	position: fixed;
-	background-color: #91d9ff;
+	background-color: lightblue;
+	border-left: 2px solid rgb(0, 122, 197);
 	height: 100%;
 	display: none;
 	width: 200px;
@@ -410,4 +411,8 @@ label {
 
 .login, .register {
 	margin-top: 20px;
+}
+
+#thread {
+	background-color: lightblue;
 }

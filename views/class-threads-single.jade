@@ -1,18 +1,18 @@
 ul
-  li.comment
+  li#thread.comment
     div.classname
-      div.posttime #{thread.time}
+      div.posttime #{threadTime}
       div.posttitle 
         h3 #{thread.title}
+      div.author #{author}
       div.postcontent 
         p #{thread.content}
   if(hasPosts)
     each post in posts
       li.comment
         div.classname
-          div.pic.young
           div #{users[post.userId]}
-          div.posttime #{post.time}
+          div.posttime #{time[post._id]}
           div.postcontent 
             p #{post.content}
   else

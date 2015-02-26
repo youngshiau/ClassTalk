@@ -19,6 +19,34 @@ function cmp(a, b) {
 	return b < a;
 }
 
+// formats date into something similar to '6h ago'
+function timeSince(date) {
+    var seconds = Math.floor((new Date().getTime() - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return interval + " years ago";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " months ago";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " days ago";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return interval + " hours ago";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
+}
+
 var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }, 
                 replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } }; 
 
@@ -211,6 +239,12 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 			}
 			allThreads = threads;	
 
+			var threadTimes = {};
+			for(var i = 0; i < allThreads.length; i++) {
+				var threadId = allThreads[i]._id;
+				threadTimes[threadId] = timeSince(allThreads[i].time.getTime());
+			}
+
 			res.render('main', { 	title: title, 
 							view: 'class', 
 							url: '/class/' + className,
@@ -220,6 +254,7 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 							email: req.session.email,
 							className: className,
 							threads: allThreads,
+							time: threadTimes,
 							hasThreads: hasThreads,
 							back: '/main' });
 		});
@@ -238,7 +273,7 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 	var threadId = req.params['id'];
 
 	var query = threads.find({ _id: threadId });
-	query.select('title content time user _id');
+	query.select('title content time userId _id');
 	query.exec(function(err, thread) {
 		if(err) {
 			return console.log(err);
@@ -256,15 +291,27 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 			query = users.find();
 			query.exec(function(err, tempUsers) {
 
+				// associate user IDs with names
 				var allUsers = {};
-				console.log(tempUsers);
-				console.log(tempUsers[0]._id);
 				for(var i = 0; i < tempUsers.length; i++) {
 					var id = tempUsers[i]._id;
 					var name = tempUsers[i].firstname + ' ' + tempUsers[i].lastname;
 					allUsers[id] = name;
 				}
-				console.log(allUsers);
+
+				// associate post IDs with formatted times
+				var postTimes = {};
+				for(var i = 0; i < allPosts.length; i++) {
+					var postId = allPosts[i]._id;
+					postTimes[postId] = timeSince(allPosts[i].time.getTime());
+				}
+
+				// associate thread ID with thread creator
+				var author = allUsers[thread['userId']];
+				console.log(author);
+
+				// associate thread ID with formatted time
+				var threadTime = timeSince(thread['time'].getTime());
 
 				res.render('main', { 	title: title, 
 										view: 'class-thread', 
@@ -277,6 +324,9 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 										className: className,
 										thread: thread,
 										posts: allPosts,
+										time: postTimes,
+										threadTime: threadTime,
+										author: author,
 										hasPosts: hasPosts,
 										back: '/class/' + className
 									});
