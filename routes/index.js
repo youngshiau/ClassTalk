@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
-//var checkAuth = require('../middleware/checkAuth');
+
+// note to self: removing node_modules from github crashes heroku somehow
 
 var router = express.Router();
 
