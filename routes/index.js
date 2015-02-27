@@ -78,8 +78,6 @@ router.get('/login', function(req, res, next) {
 	res.render('main', {	title: 'Login',
 				  		  	view: 'login',
 				  		  	back: '/login',
-				  		  	toggleVersion: 1,
-							versionText: 'Post-Testing',
 							versionStyle: 'style.css',
 				  		  	success: true });
 });
@@ -88,8 +86,6 @@ router.get('/invalid-login', function(req, res, next) {
 	res.render('main', { 	title: 'Login',
 							view: 'login',
 							back: '/login',
-							toggleVersion: 1,
-							versionText: 'Post-Testing',
 							versionStyle: 'style.css',
 							success: false });
 });
@@ -98,8 +94,6 @@ router.get('/invalid-registration', function(req, res, next) {
 	res.render('main', {    title: 'Register',
 							view: 'register',
 							back: '/register',
-				  		  	toggleVersion: 1,
-							versionText: 'Post-Testing',
 							versionStyle: 'style.css',
 							success: false });
 });
