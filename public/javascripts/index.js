@@ -100,25 +100,15 @@ function zoomOut() {
     });
 }
 
-function switchToOld() {
-	version = 0;
-	$('#version').attr('href', '/stylesheets/style-old.css');
-	$('#new').hide();
-	$('#old').show();
-}
-
-function switchToNew() {
-	version = 1;
-	$('#version').attr('href', '/stylesheets/style.css');
-	$('#new').show();
-	$('#old').hide();	
-}
-
 function toggleVersion() {
 	if(version == 1) {
-		switchToOld();
+		version = 0;
+		$('#version').attr('href', '/stylesheets/style-old.css');
+		$('#version-text').html('Pre-Testing');
 	}
 	else {
-		switchToNew();
+		version = 1;
+		$('#version').attr('href', '/stylesheets/style.css');
+		$('#version-text').html('Post-Testing');
 	}
 }

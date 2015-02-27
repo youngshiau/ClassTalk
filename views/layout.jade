@@ -6,7 +6,7 @@ html(lang="en-US")
     title= title
     link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600', type='text/css')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', type='text/css')
-    link#version(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
+    link(rel='stylesheet', href='/stylesheets/#{versionStyle}', type='text/css')
     if view == 'class'
       link(rel='stylesheet', href='/stylesheets/class.css', type='text/css')
     if view == 'class-thread'
@@ -23,9 +23,8 @@ html(lang="en-US")
     div Hello, #{fullname}
     div#notif Notifications
     div#pref Preferences
-    div#change Version: 
-      span#new Post-Testing
-      span#old Pre-Testing
+    div#change 
+      a(href='/main/change') Version: #{versionText}
     div#logout 
       a(href='/logout') Logout
   div#search-panel

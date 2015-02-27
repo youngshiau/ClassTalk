@@ -78,6 +78,9 @@ router.get('/login', function(req, res, next) {
 	res.render('main', {	title: 'Login',
 				  		  	view: 'login',
 				  		  	back: '/login',
+				  		  	toggleVersion: 1,
+							versionText: 'Post-Testing',
+							versionStyle: 'style.css',
 				  		  	success: true });
 });
 
@@ -85,6 +88,9 @@ router.get('/invalid-login', function(req, res, next) {
 	res.render('main', { 	title: 'Login',
 							view: 'login',
 							back: '/login',
+							toggleVersion: 1,
+							versionText: 'Post-Testing',
+							versionStyle: 'style.css',
 							success: false });
 });
 
@@ -92,6 +98,9 @@ router.get('/invalid-registration', function(req, res, next) {
 	res.render('main', {    title: 'Register',
 							view: 'register',
 							back: '/register',
+				  		  	toggleVersion: 1,
+							versionText: 'Post-Testing',
+							versionStyle: 'style.css',
 							success: false });
 });
 
@@ -122,6 +131,9 @@ router.post('/login', function(req, res, next) {
 					req.session.fullname = user.firstname + ' ' + user.lastname;
 					req.session.firstname = user.firstname;
 					req.session.lastname = user.lastname;
+					req.session.versionText = 'Post-Testing';
+					req.session.toggleVersion = 1;
+					req.session.versionStyle = 'style.css';
 					res.redirect('/main');
 				} 
 				// failed; reject
@@ -178,6 +190,11 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 	}
 	else {
 
+
+console.log(req.session.versionText);
+console.log(req.session.versionStyle);
+console.log(req.session.toggleVersion);
+
 		var fullname;
 
 		// query the db for someone whose username is youngshiau
@@ -208,9 +225,27 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 							lastname: req.session.lastname,
 							email: req.session.email,
 							otherClasses: allClasses,
+							toggleVersion: req.session.toggleVersion,
+							versionText: req.session.versionText,
+							versionStyle: req.session.versionStyle,
 							back: '/main' });
 			});
 		});
+	}
+});
+
+router.get('/main/change', function(req, res, next) {
+	if(req.session.toggleVersion == 1) {
+		req.session.toggleVersion = 0;
+		req.session.versionText = 'Pre-Testing';
+		req.session.versionStyle = 'style-old.css'
+		res.redirect('/main');
+	}
+	else {
+		req.session.toggleVersion = 1;
+		req.session.versionText = 'Post-Testing';
+		req.session.versionStyle = 'style.css'
+		res.redirect('/main');
 	}
 });
 
@@ -256,6 +291,9 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 							threads: allThreads,
 							time: threadTimes,
 							hasThreads: hasThreads,
+							toggleVersion: req.session.toggleVersion,
+							versionText: req.session.versionText,
+							versionStyle: req.session.versionStyle,
 							back: '/main' });
 		});
 	});
@@ -328,6 +366,9 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 										threadTime: threadTime,
 										author: author,
 										hasPosts: hasPosts,
+										toggleVersion: req.session.toggleVersion,
+										versionText: req.session.versionText,
+										versionStyle: req.session.versionStyle,
 										back: '/class/' + className
 									});
 			});
