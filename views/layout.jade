@@ -1,7 +1,6 @@
 doctype html
 html(lang="en-US")
   head
-    {{> tracking_code_script}}
     meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
     meta(name='viewport', content='width=device-width', initial-scale=1)
     title= title
@@ -15,7 +14,7 @@ html(lang="en-US")
     script(src='/javascripts/jquery-1.11.2.min.js')
     script(src='/javascripts/jquery-ui.min.js')
     script(src='/javascripts/index.js') 
-
+    script(src='/javascripts/woopra.js')
 
   body
     include nav-bar
