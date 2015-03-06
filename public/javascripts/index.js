@@ -105,10 +105,16 @@ function toggleVersion() {
 		version = 0;
 		$('#version').attr('href', '/stylesheets/style-old.css');
 		$('#version-text').html('Pre-Testing');
+		$(".version_a").click(function(){
+			woopra.track("a_version_header");
+		})
 	}
 	else {
 		version = 1;
 		$('#version').attr('href', '/stylesheets/style.css');
 		$('#version-text').html('Post-Testing');
+		$(".version_b").click(function(){
+			woopra.track("b_version_header");
+		})
 	}
 }

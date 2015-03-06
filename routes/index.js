@@ -128,6 +128,7 @@ router.post('/login', function(req, res, next) {
 					req.session.lastname = user.lastname;
 					req.session.versionText = 'Post-Testing';
 					req.session.toggleVersion = 1;
+					req.session.Version = 'B';
 					req.session.versionStyle = 'style.css';
 					res.redirect('/main');
 				} 
@@ -189,6 +190,7 @@ router.get('/main', /*checkAuth,*/ function(req, res, next) {
 console.log(req.session.versionText);
 console.log(req.session.versionStyle);
 console.log(req.session.toggleVersion);
+console.log(req.session.Version);
 
 		var fullname;
 
@@ -221,6 +223,7 @@ console.log(req.session.toggleVersion);
 							email: req.session.email,
 							otherClasses: allClasses,
 							toggleVersion: req.session.toggleVersion,
+							Version: req.session.Version,
 							versionText: req.session.versionText,
 							versionStyle: req.session.versionStyle,
 							back: '/main' });
@@ -233,13 +236,15 @@ router.get('/main/change', function(req, res, next) {
 	if(req.session.toggleVersion == 1) {
 		req.session.toggleVersion = 0;
 		req.session.versionText = 'Pre-Testing';
-		req.session.versionStyle = 'style-old.css'
+		req.session.versionStyle = 'style-old.css';
+		req.session.Version = 'A';
 		res.redirect('/main');
 	}
 	else {
 		req.session.toggleVersion = 1;
 		req.session.versionText = 'Post-Testing';
-		req.session.versionStyle = 'style.css'
+		req.session.versionStyle = 'style.css';
+		req.session.Version = 'B';
 		res.redirect('/main');
 	}
 });
@@ -287,6 +292,7 @@ router.get('/class/:className', /*checkAuth,*/ function(req, res, next) {
 							time: threadTimes,
 							hasThreads: hasThreads,
 							toggleVersion: req.session.toggleVersion,
+							Version: req.session.Version,
 							versionText: req.session.versionText,
 							versionStyle: req.session.versionStyle,
 							back: '/main' });
@@ -362,6 +368,7 @@ router.get('/class/:className/:id', /*checkAuth,*/ function(req, res, next) {
 										author: author,
 										hasPosts: hasPosts,
 										toggleVersion: req.session.toggleVersion,
+										Version: req.session.Version,
 										versionText: req.session.versionText,
 										versionStyle: req.session.versionStyle,
 										back: '/class/' + className

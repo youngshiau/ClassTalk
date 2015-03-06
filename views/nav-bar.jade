@@ -20,7 +20,10 @@ div#nav-bar.nav
         a(href='#{back}')
           i.fa.fa-arrow-left
           div.nav-title BACK
-  div.title #{title}
+  if Version == 'A' 
+    div.title.version_a #{title}
+  else
+    div.title.version_b #{title}
   if(fullname)
     div#search.block
       div
