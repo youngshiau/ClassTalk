@@ -419,10 +419,20 @@ label {
 
 .button {
 	width: 255px;
+	height: 40px;
+	font-size: 14px;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	background: black;
+	color: white;
+	border: none;
 }
 
 .box {
 	width: 150px;
+	height: 30px;
+	margin-bottom: 10px;
+	background: #ddd;
 }
 .centered-box {
 	margin-left: auto;
