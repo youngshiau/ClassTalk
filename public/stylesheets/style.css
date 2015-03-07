@@ -425,6 +425,7 @@ label {
 	background: black;
 	color: white;
 	border: none;
+	cursor: pointer;
 }
 
 .box {
