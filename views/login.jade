@@ -7,7 +7,7 @@ div.centered-box
       label(for='pw') Password
       input.box(type='password', name='user[password]', id='pw' required)
       br
-      input.button(type='submit', value='Log in')
+      input.button(type='submit', value='Log in', id='login')
     else
       div.fail Invalid email or password.
       label.fail(for='email') Email 
@@ -16,7 +16,7 @@ div.centered-box
       label.fail(for='pw') Password
       input.box.fail(type='password', name='user[password]', id='pw' required)
       br
-      input.button(type='submit', value='Log in')
+      input.button(type='submit', value='Log in', id='login')
   div.register
     div Don't have an account?
     a(href='/register') 
