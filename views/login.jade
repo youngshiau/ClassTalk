@@ -2,22 +2,22 @@ div.centered-box
   form(action='/login', method='post')
     if(success)
       label(for='email') Email 
-      input.box(type='text', name='user[email]', id='email' required)
+      input.box(type='text', placeholder='E-mail', name='user[email]', id='email' required)
       br
       label(for='pw') Password
-      input.box(type='password', name='user[password]', id='pw' required)
+      input.box(type='password', placeholder='Password', name='user[password]', id='pw' required)
       br
       input.button(type='submit', value='Log in', id='login')
     else
       div.fail Invalid email or password.
       label.fail(for='email') Email 
-      input.box.fail(type='text', name='user[email]', id='email' required)
+      input.box.fail(type='text', placeholder='E-mail', name='user[email]', id='email' required)
       br
       label.fail(for='pw') Password
-      input.box.fail(type='password', name='user[password]', id='pw' required)
+      input.box.fail(type='password', placeholder='Password', name='user[password]', id='pw' required)
       br
       input.button(type='submit', value='Log in', id='login')
   div.register
-    div Don't have an account?
+    div.registerMessage OR
     a(href='/register') 
       button.button Register
