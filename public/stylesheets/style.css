@@ -433,6 +433,10 @@ label {
 	margin-bottom: 10px;
 	background: #ddd;
 }
+#login {
+	background: rgb(112, 210, 110);
+	margin-top: 10px;
+}
 .centered-box {
 	margin-left: auto;
 	margin-right: auto;
