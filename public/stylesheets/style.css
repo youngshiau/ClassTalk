@@ -433,9 +433,16 @@ label {
 	margin-bottom: 10px;
 	background: #ddd;
 }
+.box:focus {
+	background: #eee;
+}
 #login {
 	background: rgb(112, 210, 110);
 	margin-top: 10px;
+}
+.registerMessage {
+	text-align: center;
+	margin-bottom: 20px;
 }
 .centered-box {
 	margin-left: auto;
