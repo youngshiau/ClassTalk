@@ -17,7 +17,8 @@ html(lang="en-US")
     script(src='/javascripts/woopra.js')
 
   body
-    include nav-bar
+    if view != 'login' && view != 'register'
+      include nav-bar
     block content
   div#settings-panel
     div Hello, #{fullname}

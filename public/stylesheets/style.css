@@ -143,8 +143,8 @@ html {
 body {
 	font-family: 'Source Sans Pro',sans-serif !important;
 	overflow:scroll;
-	background: url("../images/booksbackground.jpg") #ccc;
-	background-size: auto 100%;
+	background: url("../images/booksbackground2.jpg") #ccc no-repeat center center fixed;
+	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 }

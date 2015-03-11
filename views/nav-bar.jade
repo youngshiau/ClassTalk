@@ -1,36 +1,35 @@
-if view != login && view != register
-  div#nav-bar.nav
-    if(fullname)
-      if view == 'home'
-        div#home.hidden.block
-          a(href='/main')
-            i.fa.fa-home
-            div.nav-title HOME
-      else
-        div#home.block
-          a(href='/main')
-            i.fa.fa-home
-            div.nav-title HOME
-      if view == 'home' 
-        div#back.hidden.block
-          a(href='#{back}')
-            i.fa.fa-arrow-left
-            div.nav-title BACK
-      else
-        div#back.block
-          a(href='#{back}')
-            i.fa.fa-arrow-left
-            div.nav-title BACK
-    if Version == 'A' 
-      div.title.version_a #{title}
+div#nav-bar.nav
+  if(fullname)
+    if view == 'home'
+      div#home.hidden.block
+        a(href='/main')
+          i.fa.fa-home
+          div.nav-title HOME
     else
-      div.title.version_b #{title}
-    if(fullname)
-      div#search.block
-        div
-          i.fa.fa-search
-          div.nav-title SEARCH
-      div#settings.block
-        div
-          i.fa.fa-bars
-          div.nav-title MENU
+      div#home.block
+        a(href='/main')
+          i.fa.fa-home
+          div.nav-title HOME
+    if view == 'home' 
+      div#back.hidden.block
+        a(href='#{back}')
+          i.fa.fa-arrow-left
+          div.nav-title BACK
+    else
+      div#back.block
+        a(href='#{back}')
+          i.fa.fa-arrow-left
+          div.nav-title BACK
+  if Version == 'A' 
+    div.title.version_a #{title}
+  else
+    div.title.version_b #{title}
+  if(fullname)
+    div#search.block
+      div
+        i.fa.fa-search
+        div.nav-title SEARCH
+    div#settings.block
+      div
+        i.fa.fa-bars
+        div.nav-title MENU
