@@ -16,7 +16,10 @@ html(lang="en-US")
     script(src='/javascripts/index.js') 
     script(src='/javascripts/woopra.js')
 
-  body.loggedIn
+  if view != 'login' && view != 'register'
+    body.loggedIn
+  else
+    body
     if view != 'login' && view != 'register'
       include nav-bar
     block content
