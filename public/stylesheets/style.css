@@ -370,12 +370,13 @@ h3 {
 }
 
 #pref-panel > form {
-	margin-left: 60px;
 	width: 50%;
 	padding: 15px;
 	background-color: white;
 	display: inline-block;
 	text-align: center;
+	margin-top: 150px;
+	width: 150px;
 }
 
 .delete {
@@ -564,7 +565,7 @@ label {
 	margin-top: 5px;
 }
 
-#old {
+#old, #notif {
 	display: none;
 }
 
