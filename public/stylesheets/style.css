@@ -587,3 +587,7 @@ select {
 #noposts, #nothreads {
 	color: white;
 }
+
+#change {
+	display: none;
+}
