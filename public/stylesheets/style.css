@@ -303,6 +303,7 @@ h3 {
 #threads > form > textarea {
 	width: 100%;
 	margin-top: 10px;
+	height: 5em;
 }
 
 #threads > form > input {
@@ -346,7 +347,7 @@ h3 {
 
 #posts > form > textarea {
 	width: 100%;
-	height: 100px;
+	height: 5em;
 }
 
 #posts > form > input {
@@ -411,6 +412,7 @@ h3 {
 	background-color: white;
 	display: inline-block;
 	text-align: center;
+	margin-top: 150px;
 }
 
 #delete-class > form > input, #delete-class > form > button {
@@ -576,4 +578,12 @@ label {
 
 .hidden {
 	display: none;
+}
+
+select {
+	margin-bottom: 5px;
+}
+
+#noposts, #nothreads {
+	color: white;
 }
