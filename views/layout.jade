@@ -18,10 +18,10 @@ html(lang="en-US")
 
   if view != 'login' && view != 'register'
     body.loggedIn
+      include nav-bar
+    block content
   else
     body
-    if view != 'login' && view != 'register'
-      include nav-bar
     block content
   div#settings-panel
     div Hello, #{fullname}
