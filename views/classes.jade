@@ -2,8 +2,8 @@ ul
   if(hasClasses)
     each val in classes
       li
-        div
-          a(href="/class/#{val}")
+        a(href="/class/#{val}")
+          div
             div.classtag #{val}
             div.classname CSE #{val}
             div.delete(data='#{val}') X
@@ -16,7 +16,7 @@ div#classes
       each val in otherClasses
         option(value='#{val.className}') CSE #{val.className}
     br
-    input(type='submit', value='Add Class')
+    input(type='submit', value='Add Class', class='addButton')
     br
     button#hide-class Cancel
 div#delete-class

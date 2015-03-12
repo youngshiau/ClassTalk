@@ -1,34 +1,27 @@
 div.centered-box
+  div.logo
   form(action='/register', method='post')
     if(success)
+      input.box(type='text', placeholder='First Name', name='user[firstname]', id='firstname' required)
       label(for='firstname') First Name 
-      input.box(type='text', name='user[firstname]', id='firstname' required)
-      br
+      input.box(type='text', placeholder='Last Name' name='user[lastname]', id='lastname' required)
       label(for='lastname') Last Name
-      input.box(type='text', name='user[lastname]', id='lastname' required)
-      br
-      label(for='email') Email 
-      input.box(type='text', name='user[email]', id='email' required)
-      br
+      input.box(type='text', placeholder='E-mail' name='user[email]', id='email' required)
+      label(for='email') E-mail 
+      input.box(type='password', placeholder='Password' name='user[password]', id='pw' required)
       label(for='pw') Password
-      input.box(type='password', name='user[password]', id='pw' required)
-      br
       input.button(type='submit' value='Register')
     else
       div.fail This email has already been taken.
+      input.box(type='text', placeholder='First Name' name='user[firstname]', id='firstname' required)
       label(for='firstname') First Name 
-      input.box(type='text', name='user[firstname]', id='firstname' required)
-      br
+      input.box(type='text', placeholder='Last Name' name='user[lastname]', id='lastname' required)
       label(for='lastname') Last Name
-      input.box(type='text', name='user[lastname]', id='lastname' required)
-      br
+      input.fail.box(type='text', placeholder='E-mail' name='user[email]', id='email' required)
       label.fail(for='email') Email 
-      input.fail.box(type='text', name='user[email]', id='email' required)
-      br
+      input.box(type='password', placeholder='Password' name='user[password]', id='pw' required)
       label(for='pw') Password
-      input.box(type='password', name='user[password]', id='pw' required)
-      br
       input.button(type='submit' value='Register')    
-  div.login Already have an account?
-    a(href='/login') 
-      button.button Cancel
+  div.registerMessage.register Already have an account?
+  a(href='/login') 
+    button.button(id='login') Log In

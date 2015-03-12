@@ -18,7 +18,7 @@ div.inner > span > div.posttitle, div.inner > span > div.postpreview {
 
 .classtag {
 	display: table-cell;
-	border: 2px solid rgb(50,50,50);
+	border: 2px solid #004363;
 	box-sizing:border-box;
 	-moz-box-sizing:border-box;
 	-webkit-box-sizing:border-box;
@@ -28,7 +28,7 @@ div.inner > span > div.posttitle, div.inner > span > div.postpreview {
 	vertical-align: middle;
 	font-size: 20px;
 	font-weight: 600;
-	color: rgb(50,50,50);
+	color: #004363;
 	background: white;
 	position:absolute;
 	padding-top: 5px;
@@ -48,11 +48,12 @@ div.inner > span > div.posttitle, div.inner > span > div.postpreview {
 	font-size: 12px;
 }
 .posttime {
-	position: absolute;
+	position: relative;
 	font-weight: 200;
 	font-size: 14px;
-	right: -4px;
-	top: -8px;
+	top: -44px;
+	float: right;
+	height: 0px;
 	color: rgb(150,150,150);
 }
 .google {

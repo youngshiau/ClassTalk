@@ -20,10 +20,10 @@ ul
 div#new-post.new-button  + Add Comment
 div#posts
   form(action='/addPost', method='post')
-    textarea(name='post[content]', id='thread-content' required)
+    textarea(name='post[content]', id='thread-content', placeholder='Enter your comment here...' required)
     br
     input(type='hidden', name='post[className]', value='#{className}')
     input(type='hidden', name='post[threadId]', value='#{thread._id}')
-    input(type='submit', value='Add Post')
+    input(type='submit', value='Add Post', class='addButton')
     br
     button#hide-post Cancel

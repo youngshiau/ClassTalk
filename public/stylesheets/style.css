@@ -18,13 +18,11 @@
 #back {
 	position: absolute;
 	top: -1px;
-	left: 60px;
 }
 
 #back > a {
-	position: absolute;
-	top: 6px;
-	left: 16px;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 #settings {
@@ -34,9 +32,8 @@
 }
 
 #settings > div {
-	position: absolute;
-	top: 6px;
-	left: 16px;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 #search {
@@ -52,11 +49,10 @@
 }
 
 #nav-bar > div.title {
-	height: 60px;
+	height: 64px;
 	padding-left: 120px;
 	padding-right: 120px;
 	width: auto;
-	background-color: black;
 	color: white;
 }
 
@@ -119,7 +115,6 @@
 .invert {
 	filter: invert(100%);
 	-webkit-filter: invert(100%);
-	border: 2px solid white !important;
 }
 
 a {
@@ -149,6 +144,11 @@ body {
 	background-repeat: no-repeat;
 }
 
+body.loggedIn {
+	background-image: url("../images/colorbackground.jpg");
+	color: #004363;
+}
+
 ul {
 	list-style:none;
 	margin:64px 0 0;
@@ -162,7 +162,11 @@ li {
 	width: 100%;
 }
 
-li > div {
+li > a {
+	width: 100%;
+}
+
+li > a > div {
 	padding: 10px;
 }
 
@@ -178,7 +182,7 @@ li:nth-child(odd) {
 	vertical-align:middle;
 	font-size:20px;
 	font-weight:300;
-	background:#323232;
+	background:#004363;
 	color:#fff;
 }
 
@@ -195,18 +199,16 @@ li:nth-child(odd) {
 	display:table;
 	border-collapse:collapse;
 	position:fixed;
-	background:#fff;
+	background-color: #11c59a;
 	top:0;
 }
 
 .block {
-	display:table-cell;
-	width:60px;
-	height:60px;
-	vertical-align:middle;
+	display:table;
+	width:64px;
+	height:64px;
 	text-align:center;
-	border:2px solid #000;
-	background-color: white;
+	color: #004363;
 }
 
 .title {
@@ -214,7 +216,6 @@ li:nth-child(odd) {
 	vertical-align:middle;
 	width:150px;
 	text-align:center;
-	border:2px solid #000;
 	font-size:20px;
 }
 
@@ -235,9 +236,9 @@ div.new-button {
     bottom: 0px;
     padding-top: 20px;
     padding-bottom: 20px;
-	background-color: #B6EAA0;
-	color: #3c763d;
-	border: 2px #3c763d solid;
+	background-color: #004363;
+	color: white;
+	box-shadow: 0 0px 20px rgba(0,0,0,0.5);
 }
 
 #classes {
@@ -251,7 +252,7 @@ div.new-button {
 }
 
 #classes > form {
-	margin-left: 60px;
+	margin-top: 80px;
 	width: 50%;
 	padding: 15px;
 	background-color: white;
@@ -270,6 +271,14 @@ div.new-button {
 #hide-class, #hide-thread, #hide-post {
 	width: 100px;
 	margin-top: 5px;
+	border: none;
+	padding: 10px;
+	color: white;
+	background: #af2e50;
+}
+
+h3 {
+	margin-top: 0;
 }
 
 #threads {
@@ -284,6 +293,7 @@ div.new-button {
 
 #threads > form {
 	width: 50%;
+	margin-top: 80px;
 	padding: 15px;
 	background-color: white;
 	display: inline-block;
@@ -291,7 +301,7 @@ div.new-button {
 }
 
 #threads > form > textarea {
-	width: 200px;
+	width: 100%;
 	margin-top: 10px;
 }
 
@@ -307,6 +317,14 @@ div.new-button {
 	width: 50px;
 }
 
+.addButton {
+	border: none;
+	border-radius: 0;
+	padding: 10px;
+	color: white;
+	background: #004363;
+}
+
 #posts {
 	position: fixed;
 	width: 100%;
@@ -318,7 +336,7 @@ div.new-button {
 }
 
 #posts > form {
-	margin-left: 60px;
+	margin-top: 80px;
 	width: 50%;
 	padding: 15px;
 	background-color: white;
@@ -327,7 +345,7 @@ div.new-button {
 }
 
 #posts > form > textarea {
-	width: 200px;
+	width: 100%;
 	height: 100px;
 }
 
@@ -406,14 +424,14 @@ input {
 
 input.fail {
 	border: 2px #83192b solid;
+	background: #ddc0c4;
 }
 
 div.fail {
 	background-color: #f2dede;
 	border-color: #ebccd1;
-	margin-bottom: 5px;
+	margin-bottom: 15px;
 	padding: 5px;
-
 }
 
 .fail {

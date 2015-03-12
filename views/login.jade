@@ -9,12 +9,10 @@ div.centered-box
       input.button(type='submit', value='Log in', id='login')
     else
       div.fail Invalid email or password.
-      label.fail(for='email') Email 
       input.box.fail(type='text', placeholder='E-mail', name='user[email]', id='email' required)
-      br
-      label.fail(for='pw') Password
+      label.fail(for='email') Email 
       input.box.fail(type='password', placeholder='Password', name='user[password]', id='pw' required)
-      br
+      label.fail(for='pw') Password
       input.button(type='submit', value='Log in', id='login')
   div.register
     div.registerMessage OR

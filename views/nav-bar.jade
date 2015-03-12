@@ -1,15 +1,5 @@
 div#nav-bar.nav
   if(fullname)
-    if view == 'home'
-      div#home.hidden.block
-        a(href='/main')
-          i.fa.fa-home
-          div.nav-title HOME
-    else
-      div#home.block
-        a(href='/main')
-          i.fa.fa-home
-          div.nav-title HOME
     if view == 'home' 
       div#back.hidden.block
         a(href='#{back}')
@@ -25,10 +15,6 @@ div#nav-bar.nav
   else
     div.title.version_b #{title}
   if(fullname)
-    div#search.block
-      div
-        i.fa.fa-search
-        div.nav-title SEARCH
     div#settings.block
       div
         i.fa.fa-bars
